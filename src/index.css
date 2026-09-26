@@ -1,0 +1,467 @@
+@import "tailwindcss";
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6.5rem;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    letter-spacing: normal;
+    word-spacing: normal;
+  }
+
+  section[id] {
+    scroll-margin-top: 6.5rem;
+  }
+
+  /* Utilitário para ocultar scrollbars nativas em barras de rolagem horizontal mantendo rolagem touch fluida */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: normal;
+    word-spacing: normal;
+    word-break: normal;
+    overflow-wrap: break-word;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    letter-spacing: -0.015em;
+    word-spacing: normal;
+  }
+
+  .font-cinzel {
+    font-family: 'Cinzel', Georgia, serif;
+    letter-spacing: 0.04em;
+    word-spacing: normal;
+  }
+
+  .site-logo {
+    height: 2.75rem;
+    width: auto;
+    max-width: 280px;
+    object-fit: contain;
+  }
+
+  @media (min-width: 640px) {
+    .site-logo {
+      height: 3.5rem;
+      max-width: 340px;
+    }
+  }
+
+  .hero-image {
+    width: 100%;
+    height: 380px;
+    object-fit: cover;
+    border-radius: 1rem;
+  }
+
+  @media (min-width: 480px) {
+    .hero-image {
+      height: 440px;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .hero-image {
+      height: 500px;
+    }
+  }
+}
+
+/* ==========================================================================
+   CURSOR PERSONALIZADO INTERATIVO COM FALLBACK ACESSÍVEL
+   (Otimizado via requestAnimationFrame e transform3d - 60/120 FPS sem lag)
+   ========================================================================== */
+
+/* Quando o cursor interativo está ativo em mouses convencionais/desktop */
+@media (pointer: fine) and (hover: hover) {
+  body.custom-cursor-active:not(.acc-default-cursor),
+  body.custom-cursor-active:not(.acc-default-cursor) * {
+    cursor: none !important;
+  }
+
+  /* Campos de texto preservam cursor nativo de inserção I-Beam para digitação clara */
+  body.custom-cursor-active:not(.acc-default-cursor) input[type="text"],
+  body.custom-cursor-active:not(.acc-default-cursor) input[type="email"],
+  body.custom-cursor-active:not(.acc-default-cursor) input[type="tel"],
+  body.custom-cursor-active:not(.acc-default-cursor) textarea {
+    cursor: text !important;
+  }
+}
+
+/* Fallback direto para o cursor nativo do sistema quando desativado pelo painel de acessibilidade */
+body.acc-default-cursor,
+body.acc-default-cursor * {
+  cursor: auto !important;
+}
+
+body.acc-default-cursor a,
+body.acc-default-cursor button,
+body.acc-default-cursor [role="button"],
+body.acc-default-cursor input[type="submit"],
+body.acc-default-cursor input[type="button"],
+body.acc-default-cursor .cursor-pointer,
+body.acc-default-cursor select,
+body.acc-default-cursor summary {
+  cursor: pointer !important;
+}
+
+body.acc-default-cursor input[type="text"],
+body.acc-default-cursor input[type="email"],
+body.acc-default-cursor input[type="tel"],
+body.acc-default-cursor textarea {
+  cursor: text !important;
+}
+
+/* ==========================================================================
+   ANIMAÇÕES OTIMIZADAS (60 FPS) FOCADAS EM OPACITY E TRANSFORM
+   (Processamento leve via GPU compositor, sem layout thrashing)
+   ========================================================================== */
+
+/* ==========================================================================
+   EFEITO DE DESTAQUE INTERATIVO EM TODOS OS BLOCOS (HOVER STAND-OUT)
+   ========================================================================== */
+
+.interactive-block,
+.interactive-card {
+  position: relative;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s ease-out,
+              background-color 0.3s ease-out;
+  will-change: transform, box-shadow;
+}
+
+/* Destaque em blocos claros (Light Theme) */
+.interactive-block:hover,
+.interactive-card:hover {
+  transform: translateY(-6px) scale(1.012);
+  box-shadow: 0 20px 35px -10px rgba(7, 24, 41, 0.14),
+              0 0 0 1.5px rgba(197, 168, 128, 0.7),
+              0 8px 24px -4px rgba(197, 168, 128, 0.25) !important;
+  border-color: #c5a880 !important;
+  z-index: 10;
+}
+
+/* Destaque em blocos escuros (Dark Theme / Azul Marinho #071829) */
+.dark-block.interactive-block:hover,
+.dark-block.interactive-card:hover,
+.bg-\[\#071829\] .interactive-block:hover,
+.bg-\[\#071829\] .interactive-card:hover,
+.bg-\[\#0b2138\] .interactive-block:hover,
+.bg-\[\#0b2138\] .interactive-card:hover,
+.bg-\[\#091f35\] .interactive-block:hover,
+.bg-\[\#091f35\] .interactive-card:hover,
+.bg-\[\#0d2742\] .interactive-block:hover,
+.bg-\[\#0d2742\] .interactive-card:hover {
+  transform: translateY(-6px) scale(1.015);
+  box-shadow: 0 22px 40px -10px rgba(0, 0, 0, 0.6),
+              0 0 0 1.5px rgba(197, 168, 128, 0.85),
+              0 0 28px -2px rgba(197, 168, 128, 0.3) !important;
+  border-color: #c5a880 !important;
+  z-index: 10;
+}
+
+/* Micro-blocos e sub-itens interativos (ex: checklist items, badges, mini-cards) */
+.interactive-mini-block {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s ease-out,
+              border-color 0.25s ease-out,
+              background-color 0.2s ease-out;
+  will-change: transform;
+}
+
+.interactive-mini-block:hover {
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: 0 10px 20px -5px rgba(7, 24, 41, 0.1),
+              0 0 0 1px rgba(197, 168, 128, 0.6) !important;
+  border-color: #c5a880 !important;
+}
+
+/* Suporte à acessibilidade: se o usuário ativou movimento reduzido */
+body.acc-reduced-motion .interactive-block:hover,
+body.acc-reduced-motion .interactive-card:hover,
+body.acc-reduced-motion .interactive-mini-block:hover {
+  transform: none !important;
+  box-shadow: 0 0 0 2px #eab308 !important;
+}
+
+@keyframes fastFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fastFadeInUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity, transform;
+}
+
+@keyframes fastFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fastFadeIn 0.25s ease-out forwards;
+  will-change: opacity;
+}
+
+/* Transições leves e suaves para botões e cards sem travar hardware */
+.hw-accelerate {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+/* ==========================================================================
+   ACURÁCIA E ACESSIBILIDADE WCAG 2.1 / 2.2 & LEI BRASILEIRA DE INCLUSÃO
+   ========================================================================== */
+
+/* Anel de foco ultra visível para navegação por teclado e acionadores motores */
+*:focus-visible {
+  outline: 3px solid #eab308 !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 5px rgba(7, 24, 41, 0.8) !important;
+}
+
+/* 1. Escalas de Fonte para Baixa Visão */
+body.acc-font-large {
+  font-size: 115% !important;
+}
+body.acc-font-xlarge {
+  font-size: 130% !important;
+}
+body.acc-font-xxlarge {
+  font-size: 145% !important;
+}
+
+/* 2. Alto Contraste Noturno (WCAG AAA - Amarelo Ouro & Branco em Preto Sólido) */
+body.acc-contrast-dark {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+body.acc-contrast-dark #main-content,
+body.acc-contrast-dark #main-content section,
+body.acc-contrast-dark header,
+body.acc-contrast-dark footer {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* Cards e Contêineres em Alto Contraste Noturno: preserva opacidade com fundo escuro e bordas nítidas */
+body.acc-contrast-dark #main-content div[class*="bg-white"],
+body.acc-contrast-dark #main-content div[class*="bg-[#FAF9F5]"],
+body.acc-contrast-dark #main-content div[class*="bg-[#071829]"],
+body.acc-contrast-dark #main-content div[class*="bg-slate-"],
+body.acc-contrast-dark #main-content article {
+  background-color: #121212 !important;
+  color: #ffffff !important;
+  border: 2px solid #facc15 !important;
+  box-shadow: none !important;
+}
+
+body.acc-contrast-dark #main-content h1,
+body.acc-contrast-dark #main-content h2,
+body.acc-contrast-dark #main-content h3,
+body.acc-contrast-dark #main-content h4,
+body.acc-contrast-dark #main-content strong,
+body.acc-contrast-dark #main-content .font-bold {
+  color: #facc15 !important;
+}
+
+body.acc-contrast-dark #main-content p,
+body.acc-contrast-dark #main-content span,
+body.acc-contrast-dark #main-content li {
+  color: #ffffff !important;
+}
+
+/* Botões da página em Alto Contraste Noturno (excluindo painel de acessibilidade) */
+body.acc-contrast-dark #main-content a,
+body.acc-contrast-dark #main-content button,
+body.acc-contrast-dark footer a,
+body.acc-contrast-dark footer button {
+  border: 2px solid #facc15 !important;
+  color: #facc15 !important;
+  background-color: #000000 !important;
+}
+
+body.acc-contrast-dark #main-content a:hover,
+body.acc-contrast-dark #main-content button:hover,
+body.acc-contrast-dark footer a:hover,
+body.acc-contrast-dark footer button:hover {
+  background-color: #facc15 !important;
+  color: #000000 !important;
+}
+
+/* 3. Alto Contraste Claro (Preto e Branco Puro com Linhas Nítidas) */
+body.acc-contrast-light {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+body.acc-contrast-light #main-content,
+body.acc-contrast-light #main-content section,
+body.acc-contrast-light header,
+body.acc-contrast-light footer {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+body.acc-contrast-light #main-content div[class*="bg-"],
+body.acc-contrast-light #main-content article {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid #000000 !important;
+  box-shadow: none !important;
+}
+
+body.acc-contrast-light #main-content h1,
+body.acc-contrast-light #main-content h2,
+body.acc-contrast-light #main-content h3,
+body.acc-contrast-light #main-content h4,
+body.acc-contrast-light #main-content strong,
+body.acc-contrast-light #main-content p,
+body.acc-contrast-light #main-content span,
+body.acc-contrast-light #main-content li {
+  color: #000000 !important;
+}
+
+body.acc-contrast-light #main-content a,
+body.acc-contrast-light #main-content button,
+body.acc-contrast-light footer a,
+body.acc-contrast-light footer button {
+  border: 2px solid #000000 !important;
+  color: #ffffff !important;
+  background-color: #000000 !important;
+}
+
+body.acc-contrast-light #main-content a:hover,
+body.acc-contrast-light #main-content button:hover,
+body.acc-contrast-light footer a:hover,
+body.acc-contrast-light footer button:hover {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* 4. Escala de Cinza / Monocromático (Aplicado estritamente ao conteúdo para não travar elementos fixed) */
+body.acc-grayscale #main-content,
+body.acc-grayscale header,
+body.acc-grayscale footer {
+  filter: grayscale(100%) contrast(105%) !important;
+}
+
+/* ==========================================================================
+   PROTEÇÃO TOTAL E ISOLAMENTO DO PAINEL DE ACESSIBILIDADE E WIDGETS AUXILIARES
+   (Garante que o painel NUNCA fique transparente, bugado ou ilegível)
+   ========================================================================== */
+#accessibility-panel,
+#accessibility-panel *,
+#accessibility-toggle-btn,
+#accessibility-toggle-btn *,
+#accessibility-quick-banner,
+#accessibility-quick-banner * {
+  filter: none !important;
+}
+
+#accessibility-panel {
+  background-color: #FAF9F5 !important;
+  color: #071829 !important;
+  border: 2px solid #c5a880 !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+}
+
+#accessibility-panel h2 {
+  color: #ffffff !important;
+}
+
+/* VLibras Widget - Otimizações para Celular e Acessibilidade */
+#vlibras-access-wrapper {
+  z-index: 2147483640 !important;
+  position: fixed !important;
+}
+
+#vlibras-app-root {
+  z-index: 2147483647 !important;
+  position: fixed !important;
+}
+
+@media (max-width: 640px) {
+  #vlibras-access-wrapper {
+    top: auto !important;
+    bottom: 78px !important;
+    right: 8px !important;
+  }
+}
+
+/* 5. Tipografia de Alta Legibilidade (Para Baixa Acuidade Visual e Dislexia) */
+body.acc-readable-font,
+body.acc-readable-font * {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif !important;
+  letter-spacing: 0.04em !important;
+  line-height: 1.8 !important;
+}
+
+/* 6. Espaçamento Ampliado de Linhas e Palavras (Para fadiga e dificuldades motoras) */
+body.acc-spacing,
+body.acc-spacing * {
+  letter-spacing: 0.08em !important;
+  word-spacing: 0.16em !important;
+  line-height: 2 !important;
+}
+
+/* 7. Destaque Visual em Links e Botões Interativos */
+body.acc-highlight-links a,
+body.acc-highlight-links button,
+body.acc-highlight-links [role="button"] {
+  text-decoration: underline !important;
+  text-underline-offset: 4px !important;
+  text-decoration-thickness: 2px !important;
+  outline: 2px dashed #d97706 !important;
+}
+
+/* 8. Redução Rigorosa de Movimento (Cinetose, Labirintite, Espasmos) */
+body.acc-reduced-motion *,
+body.acc-reduced-motion *::before,
+body.acc-reduced-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #061524;
+}
+::-webkit-scrollbar-thumb {
+  background: #233b52;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c5a880;
+}
+

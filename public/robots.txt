@@ -1,0 +1,5 @@
+# robots.txt para Givaldo Júnior Advocacia
+User-agent: *
+Allow: /
+
+Sitemap: https://givaldojunior.adv.br/sitemap.xml

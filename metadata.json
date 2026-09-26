@@ -1,0 +1,8 @@
+{
+  "name": "Remix Givaldo Júnior Advocacia | Direito de Família",
+  "description": "Advocacia especializada em Direito de Família, Divórcio, Guarda, Pensão Alimentícia e Partilha de Bens. Atendimento humanizado, estratégico e sigiloso em Cascavel/PR e online.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

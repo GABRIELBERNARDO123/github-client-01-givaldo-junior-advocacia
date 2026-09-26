@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <script>
+      (function() {
+        try {
+          var originalFetch = window.fetch;
+          var _fetch = originalFetch ? originalFetch.bind(window) : function() {
+            return Promise.reject(new Error("fetch not available"));
+          };
+
+          // Define window.fetch with both getter and setter so overwriting it does not throw
+          try {
+            Object.defineProperty(window, 'fetch', {
+              get: function() {
+                return _fetch;
+              },
+              set: function(fn) {
+                if (typeof fn === 'function') {
+                  _fetch = fn;
+                }
+              },
+              configurable: true,
+              enumerable: true
+            });
+          } catch (e1) {
+            try {
+              var proto = Object.getPrototypeOf(window) || (typeof Window !== 'undefined' ? Window.prototype : null);
+              if (proto) {
+                var protoFetch = proto.fetch ? proto.fetch.bind(window) : originalFetch;
+                Object.defineProperty(proto, 'fetch', {
+                  get: function() {
+                    return protoFetch;
+                  },
+                  set: function(fn) {
+                    if (typeof fn === 'function') {
+                      protoFetch = fn;
+                    }
+                  },
+                  configurable: true,
+                  enumerable: true
+                });
+              }
+            } catch (e2) {}
+          }
+        } catch (err) {}
+
+        // Global error suppression for the read-only fetch error in iframe environments
+        window.addEventListener('error', function(event) {
+          if (event && event.message && event.message.indexOf('fetch') !== -1 && event.message.indexOf('getter') !== -1) {
+            if (typeof event.preventDefault === 'function') {
+              event.preventDefault();
+            }
+            if (typeof event.stopImmediatePropagation === 'function') {
+              event.stopImmediatePropagation();
+            }
+            return true;
+          }
+        }, true);
+      })();
+    </script>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Favicon Oficial do Cliente (Dr. Givaldo Júnior) -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-removebg-preview.png">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="apple-touch-icon" href="/assets/favicon-removebg-preview.png">
+    <link rel="shortcut icon" href="/favicon.png">
+
+    <!-- SEO Essencial e Metadados de Autoridade Jurídica -->
+    <title>GIVALDO JUNIOR | ADVOGADO — OAB/PR 100.231</title>
+    <meta name="description" content="Givaldo Junior • Advogado OAB/PR 100.231. Atuação estratégica em Direito de Família, Recuperação de Crédito e Regularização de Imóveis em Cascavel/PR e online." />
+    <meta name="author" content="Givaldo Junior Advogado" />
+    <meta name="keywords" content="Givaldo Junior, Advogado, OAB/PR 100.231, Direito de Família, Divórcio, Guarda, Pensão Alimentícia, Recuperação de Crédito, Cobrança, Regularização de Imóveis, Cascavel PR" />
+    <link rel="canonical" href="https://givaldojunior.adv.br/" />
+
+    <!-- Open Graph / Redes Sociais & Compartilhamento -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Givaldo Junior Advocacia" />
+    <meta property="og:title" content="GIVALDO JUNIOR | ADVOGADO — OAB/PR 100.231" />
+    <meta property="og:description" content="Direito de Família • Recuperação de Crédito • Regularização de Imóveis. Condução jurídica sóbria, estratégica e de alto padrão." />
+    <meta property="og:image" content="/assets/favicon-removebg-preview.png" />
+    <meta property="og:url" content="https://givaldojunior.adv.br/" />
+    <meta property="og:locale" content="pt_BR" />
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="GIVALDO JUNIOR | ADVOGADO — OAB/PR 100.231" />
+    <meta name="twitter:description" content="Direito de Família • Recuperação de Crédito • Regularização de Imóveis. Atendimento direto e estratégico." />
+    <meta name="twitter:image" content="/assets/favicon-removebg-preview.png" />
+
+    <meta name="theme-color" content="#071829" />
+    
+    <!-- Tipografia Nobre: Cinzel, Playfair Display e Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Estrutura de Schema.org JSON-LD para Advocacia / Serviços Jurídicos -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LegalService",
+      "name": "Givaldo Junior Advocacia",
+      "description": "Advocacia especializada em Direito de Família, Recuperação de Crédito e Regularização de Imóveis.",
+      "url": "https://givaldojunior.adv.br",
+      "logo": "https://givaldojunior.adv.br/favicon.svg",
+      "image": "https://givaldojunior.adv.br/assets/favicon-removebg-preview.png",
+      "telephone": "+55-45-99903-3123",
+      "priceRange": "$$$",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "R. das Perdizes dos Florais, 134",
+        "addressLocality": "Cascavel",
+        "addressRegion": "PR",
+        "postalCode": "85814-480",
+        "addressCountry": "BR"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "-24.9578",
+        "longitude": "-53.4590"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "08:00",
+        "closes": "18:00"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Givaldo Junior",
+        "jobTitle": "Advogado",
+        "identifier": "OAB/PR 100.231"
+      }
+    }
+    </script>
+
+    <!-- Estrutura Pronta de Analytics (Google Analytics & Meta Pixel) -->
+    <script>
+      // Google Analytics 4 (DataLayer Stub)
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      gtag('js', new Date());
+      // Para ativar em produção: descomente e insira seu ID G-XXXXXXXXXX
+      // gtag('config', 'G-XXXXXXXXXX');
+
+      // Meta Pixel Stub
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      // Para ativar em produção: descomente e insira o ID do Pixel
+      // fbq('init', 'SEU_PIXEL_ID');
+      // fbq('track', 'PageView');
+    </script>
+  </head>
+  <body class="bg-[#FAF9F5] text-[#071829] antialiased selection:bg-[#c5a880]/30 selection:text-[#071829]">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Plugin Oficial VLibras (Acessibilidade em Língua Brasileira de Sinais) -->
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+      (function() {
+        function initVLibras() {
+          try {
+            if (window.VLibras && window.VLibras.Widget) {
+              new window.VLibras.Widget({
+                rootPath: 'https://vlibras.gov.br/app',
+                position: 'R'
+              });
+            }
+          } catch (err) {
+            console.warn('Erro ao inicializar VLibras:', err);
+          }
+        }
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+          setTimeout(initVLibras, 100);
+        } else {
+          window.addEventListener('DOMContentLoaded', initVLibras);
+        }
+      })();
+    </script>
+  </body>
+</html>
