@@ -1,5 +1,34 @@
-# robots.txt para Givaldo Júnior Advocacia
+# robots.txt para Dr. Givaldo Júnior Advocacia
 User-agent: *
+Allow: /
+
+# Motores de Busca e Indexação (SEO)
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+# Motores de Inteligência Artificial e Pesquisa Generativa (GEO & AEO)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Google-Extended
 Allow: /
 
 Sitemap: https://givaldojunior.adv.br/sitemap.xml

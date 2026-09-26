@@ -51,7 +51,7 @@ export const DocumentChecklist: React.FC = () => {
                       <button
                         key={itemIdx}
                         onClick={() => toggleItem(item)}
-                        className={`interactive-mini-block w-full text-left p-2.5 rounded-md border text-xs transition-all flex items-start gap-2.5 cursor-pointer ${
+                        className={`interactive-mini-block w-full text-left p-2.5 rounded-lg border text-xs transition-all flex items-start gap-2.5 cursor-pointer active:scale-[0.98] touch-manipulation min-h-[44px] ${
                           isDone 
                             ? 'bg-[#FAF8F3] border-[#c5a880] text-slate-800' 
                             : 'bg-white border-slate-200/80 text-slate-600 hover:border-[#c5a880]/60'
@@ -72,7 +72,7 @@ export const DocumentChecklist: React.FC = () => {
               </div>
 
               <div className="mt-4 pt-3 border-t border-slate-100 text-[11px] text-slate-400 italic">
-                Clique para marcar o que você já possui.
+                Toque para marcar o que você já possui.
               </div>
             </div>
           ))}

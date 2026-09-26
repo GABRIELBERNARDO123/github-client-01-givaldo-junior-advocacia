@@ -13,6 +13,7 @@ import {
   Check, 
   ArrowRight,
   ChevronRight,
+  ChevronLeft,
   MessageCircle,
   Sparkles,
   Award,
@@ -32,6 +33,11 @@ interface PracticeAreasProps {
 export const PracticeAreas: React.FC<PracticeAreasProps> = () => {
   const [selectedAreaId, setSelectedAreaId] = useState<string>(practiceAreas[0].id);
   const sectionRef = useRef<HTMLDivElement | null>(null);
+  const detailCardRef = useRef<HTMLDivElement | null>(null);
+  
+  // Touch Gestures State para deslizamento no Card de Detalhes
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -92,21 +98,72 @@ export const PracticeAreas: React.FC<PracticeAreasProps> = () => {
     }
   };
 
-  const currentArea = practiceAreas.find(a => a.id === selectedAreaId) || practiceAreas[0];
+  const currentIndex = practiceAreas.findIndex(a => a.id === selectedAreaId);
+  const currentArea = practiceAreas[currentIndex] || practiceAreas[0];
 
   const familyAreas = practiceAreas.filter(a => a.category === 'familia');
   const complementaryAreas = practiceAreas.filter(a => a.category === 'complementar');
+
+  const goToNextArea = () => {
+    if (currentIndex < practiceAreas.length - 1) {
+      setSelectedAreaId(practiceAreas[currentIndex + 1].id);
+    } else {
+      setSelectedAreaId(practiceAreas[0].id);
+    }
+  };
+
+  const goToPrevArea = () => {
+    if (currentIndex > 0) {
+      setSelectedAreaId(practiceAreas[currentIndex - 1].id);
+    } else {
+      setSelectedAreaId(practiceAreas[practiceAreas.length - 1].id);
+    }
+  };
+
+  // Manipuladores de Gestos Touch para deslizar entre áreas
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return;
+    const distance = touchStartX.current - touchEndX.current;
+    const minSwipeDistance = 45; // pixels mínimos para disparar gesto
+
+    if (distance > minSwipeDistance) {
+      // Deslizar para a esquerda -> próxima especialidade
+      goToNextArea();
+    } else if (distance < -minSwipeDistance) {
+      // Deslizar para a direita -> especialidade anterior
+      goToPrevArea();
+    }
+
+    touchStartX.current = null;
+    touchEndX.current = null;
+  };
+
+  const selectAndScroll = (id: string) => {
+    setSelectedAreaId(id);
+    // Em telas mobile, dá um scroll suave até o detalhe se o usuário tocar nas abas
+    if (window.innerWidth < 1024 && detailCardRef.current) {
+      detailCardRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  };
 
   return (
     <section 
       ref={sectionRef}
       id="atuacao" 
-      className="py-20 lg:py-28 bg-[#FAF9F5] text-[#071829] border-b border-[#c5a880]/20"
+      className="py-20 lg:py-28 bg-[#FAF9F5] text-[#071829] border-b border-[#c5a880]/20 touch-pan-y"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="max-w-3xl mb-12 gsap-practice-title">
+        <div className="max-w-3xl mb-10 lg:mb-12 gsap-practice-title">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#c5a880]/15 border border-[#c5a880]/30 text-xs font-bold uppercase tracking-wider text-[#8a6828] mb-3">
             <Sparkles className="w-3.5 h-3.5 text-[#8a6828]" />
             <span>Especialidades Jurídicas Estratégicas</span>
@@ -119,11 +176,50 @@ export const PracticeAreas: React.FC<PracticeAreasProps> = () => {
           </p>
         </div>
 
+        {/* Barra de Seleção Touch Horizontal em Telas Pequenas/Médias (Mobile & Tablet) */}
+        <div className="lg:hidden mb-8">
+          <div className="flex items-center justify-between px-1 mb-2.5 text-xs text-slate-500">
+            <span className="font-semibold text-[#8a6828] flex items-center gap-1">
+              <span className="text-sm">👆</span> Toque ou deslize as especialidades:
+            </span>
+            <span className="text-[11px] font-bold text-[#071829]">
+              {currentIndex + 1} de {practiceAreas.length}
+            </span>
+          </div>
+
+          <div className="flex overflow-x-auto no-scrollbar snap-x snap-mandatory touch-pan-x gap-2 pb-2 -mx-4 px-4">
+            {practiceAreas.map((area, idx) => {
+              const isActive = area.id === selectedAreaId;
+              return (
+                <button
+                  key={area.id}
+                  onClick={() => selectAndScroll(area.id)}
+                  className={`px-3.5 py-2 rounded-xl text-xs font-semibold shrink-0 snap-start flex items-center gap-2 transition-all active:scale-95 touch-manipulation min-h-[44px] cursor-pointer ${
+                    isActive
+                      ? 'bg-[#071829] text-white shadow-md border border-[#c5a880]'
+                      : 'bg-white text-slate-700 border border-slate-200 hover:border-[#c5a880]/60'
+                  }`}
+                >
+                  <div className={`p-1 rounded-md ${isActive ? 'bg-white/10 text-[#c5a880]' : 'bg-[#FAF8F3] text-[#8a6828]'}`}>
+                    {getIcon(area.id)}
+                  </div>
+                  <span className="whitespace-nowrap">{area.title}</span>
+                  {area.id === 'direito-familia' && (
+                    <span className="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded bg-[#c5a880] text-[#071829]">
+                      Principal
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
         {/* Dual Layout com Suporte a Gestos de Toque (Motion.dev) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start gsap-practice-grid">
           
-          {/* Coluna Esquerda: Seletor Interativo com Toque Suave (Motion.dev) */}
-          <div className="lg:col-span-5 space-y-6">
+          {/* Coluna Esquerda: Seletor Interativo para Desktop */}
+          <div className="hidden lg:block lg:col-span-5 space-y-6">
             
             {/* Bloco 1: Direito de Família */}
             <div className="space-y-2.5">
@@ -146,7 +242,7 @@ export const PracticeAreas: React.FC<PracticeAreasProps> = () => {
                     whileHover={{ scale: 1.012, x: 2 }}
                     whileTap={{ scale: 0.98 }}
                     transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                    className={`w-full text-left p-4 rounded-xl border transition-all duration-200 flex items-center justify-between group cursor-pointer ${
+                    className={`w-full text-left p-4 rounded-xl border transition-all duration-200 flex items-center justify-between group cursor-pointer touch-manipulation min-h-[48px] ${
                       isActive
                         ? 'bg-[#071829] text-white border-[#c5a880] shadow-xl shadow-[#071829]/15 ring-2 ring-[#c5a880]/30'
                         : 'bg-white text-slate-700 border-slate-200/80 hover:border-[#c5a880]/60 hover:bg-[#FDFBF7]'
@@ -178,7 +274,6 @@ export const PracticeAreas: React.FC<PracticeAreasProps> = () => {
                         </p>
                       </div>
                     </div>
-
                     <ChevronRight className={`w-4 h-4 shrink-0 transition-transform ${
                       isActive ? 'text-[#c5a880] translate-x-1' : 'text-slate-400 group-hover:translate-x-0.5'
                     }`} />
@@ -187,11 +282,16 @@ export const PracticeAreas: React.FC<PracticeAreasProps> = () => {
               })}
             </div>
 
-            {/* Bloco 2: Recuperação de Crédito & Regularização de Imóveis */}
+            {/* Bloco 2: Outras Especialidades Relevantes */}
             <div className="space-y-2.5 pt-2">
-              <div className="flex items-center gap-2 px-1 text-xs font-bold uppercase tracking-wider text-slate-500">
-                <Building2 className="w-3.5 h-3.5 text-[#8a6828]" />
-                <span>Crédito & Regularização Imobiliária</span>
+              <div className="flex items-center justify-between px-1">
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500">
+                  <Coins className="w-4 h-4 text-[#c5a880]" />
+                  <span>Especialidades Complementares</span>
+                </div>
+                <span className="text-[10px] font-semibold uppercase px-2 py-0.5 rounded bg-slate-100 text-slate-600">
+                  Atuação Estratégica
+                </span>
               </div>
 
               {complementaryAreas.map((area) => {
@@ -203,7 +303,7 @@ export const PracticeAreas: React.FC<PracticeAreasProps> = () => {
                     whileHover={{ scale: 1.012, x: 2 }}
                     whileTap={{ scale: 0.98 }}
                     transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                    className={`w-full text-left p-4 rounded-xl border transition-all duration-200 flex items-center justify-between group cursor-pointer ${
+                    className={`w-full text-left p-4 rounded-xl border transition-all duration-200 flex items-center justify-between group cursor-pointer touch-manipulation min-h-[48px] ${
                       isActive
                         ? 'bg-[#071829] text-white border-[#c5a880] shadow-xl shadow-[#071829]/15 ring-2 ring-[#c5a880]/30'
                         : 'bg-white text-slate-700 border-slate-200/80 hover:border-[#c5a880]/60 hover:bg-[#FDFBF7]'
@@ -211,18 +311,16 @@ export const PracticeAreas: React.FC<PracticeAreasProps> = () => {
                   >
                     <div className="flex items-center gap-3.5 pr-2">
                       <div className={`p-2 rounded-lg shrink-0 transition-colors ${
-                        isActive ? 'bg-white/10 text-[#c5a880]' : 'bg-slate-100 text-slate-600 group-hover:text-[#8a6828]'
+                        isActive ? 'bg-white/10 text-[#c5a880]' : 'bg-[#FAF8F3] text-[#8a6828] group-hover:bg-[#c5a880]/15'
                       }`}>
                         {getIcon(area.id)}
                       </div>
                       <div>
-                        <div className="flex items-center gap-2">
-                          <span className={`text-sm sm:text-base font-display font-semibold ${
-                            isActive ? 'text-white' : 'text-[#071829]'
-                          }`}>
-                            {area.title}
-                          </span>
-                        </div>
+                        <span className={`text-sm sm:text-base font-display font-semibold ${
+                          isActive ? 'text-white' : 'text-[#071829]'
+                        }`}>
+                          {area.title}
+                        </span>
                         <p className={`text-xs mt-0.5 font-light line-clamp-1 ${
                           isActive ? 'text-slate-300' : 'text-slate-500'
                         }`}>
@@ -230,7 +328,6 @@ export const PracticeAreas: React.FC<PracticeAreasProps> = () => {
                         </p>
                       </div>
                     </div>
-
                     <ChevronRight className={`w-4 h-4 shrink-0 transition-transform ${
                       isActive ? 'text-[#c5a880] translate-x-1' : 'text-slate-400 group-hover:translate-x-0.5'
                     }`} />
@@ -241,15 +338,41 @@ export const PracticeAreas: React.FC<PracticeAreasProps> = () => {
 
           </div>
 
-          {/* Coluna Direita: Cartão Estratégico com Transição Suave e Toque */}
-          <div className="lg:col-span-7 lg:sticky lg:top-24">
+          {/* Coluna Direita: Cartão Estratégico com GESTOS DE TOUCH (SWIPE) */}
+          <div ref={detailCardRef} className="lg:col-span-7 lg:sticky lg:top-24">
             <motion.div
               key={currentArea.id}
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className="bg-white rounded-2xl border border-[#c5a880]/30 p-6 sm:p-8 lg:p-10 shadow-xl shadow-black/5 space-y-7"
+              transition={{ duration: 0.28 }}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+              className="bg-white rounded-2xl border border-[#c5a880]/30 p-6 sm:p-8 lg:p-10 shadow-xl shadow-black/5 space-y-6 sm:space-y-7 relative select-none touch-pan-y"
             >
+              {/* Barra superior de toque para mobile (indicação de gesto) */}
+              <div className="lg:hidden flex items-center justify-between text-xs text-slate-500 pb-1 border-b border-slate-100">
+                <span className="flex items-center gap-1 font-medium">
+                  👈 Deslize para trocar de área 👉
+                </span>
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={goToPrevArea}
+                    aria-label="Especialidade anterior"
+                    className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-700 active:scale-90 touch-manipulation cursor-pointer"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={goToNextArea}
+                    aria-label="Próxima especialidade"
+                    className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-700 active:scale-90 touch-manipulation cursor-pointer"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+
               {/* Ribbon de Destaque */}
               <div className="bg-[#FAF8F3] border border-[#c5a880]/40 rounded-xl p-3.5 flex items-center justify-between gap-2 text-xs">
                 <div className="flex items-center gap-2 text-[#8a6828] font-bold">
@@ -315,9 +438,9 @@ export const PracticeAreas: React.FC<PracticeAreasProps> = () => {
                   rel="noopener noreferrer"
                   onClick={() => trackWhatsAppClick('practice_area_card_btn', currentArea.title)}
                   whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.97 }}
+                  whileTap={{ scale: 0.96 }}
                   transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                  className="w-full sm:w-auto px-6 py-3.5 rounded-lg bg-gradient-to-r from-[#c5a880] via-[#d4b78f] to-[#b09164] hover:from-[#d8bd97] hover:to-[#be9f72] text-[#071829] font-bold text-xs uppercase tracking-wider transition-all shadow cursor-pointer flex items-center justify-center gap-2 min-h-[44px]"
+                  className="w-full sm:w-auto px-6 py-3.5 rounded-lg bg-gradient-to-r from-[#c5a880] via-[#d4b78f] to-[#b09164] hover:from-[#d8bd97] hover:to-[#be9f72] text-[#071829] font-bold text-xs uppercase tracking-wider transition-all shadow cursor-pointer flex items-center justify-center gap-2 min-h-[44px] touch-manipulation"
                 >
                   <MessageCircle className="w-4 h-4 fill-current" />
                   <span>Falar Sobre {currentArea.title}</span>

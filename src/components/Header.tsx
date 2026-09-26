@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   Phone, 
   MapPin, 
@@ -30,6 +30,21 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ onOpenAccessibility, onOpenNotFound }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>('inicio');
+  const menuTouchStartY = useRef<number | null>(null);
+
+  const handleMenuTouchStart = (e: React.TouchEvent) => {
+    menuTouchStartY.current = e.targetTouches[0].clientY;
+  };
+
+  const handleMenuTouchEnd = (e: React.TouchEvent) => {
+    if (menuTouchStartY.current === null) return;
+    const currentY = e.changedTouches[0].clientY;
+    // Se o usuário deslizou mais de 45px para cima, fecha o menu suavemente
+    if (menuTouchStartY.current - currentY > 45) {
+      setMobileMenuOpen(false);
+    }
+    menuTouchStartY.current = null;
+  };
 
   const navLinks = [
     { label: 'Início', href: '#inicio', id: 'inicio', icon: Home, short: 'Início' },
@@ -285,7 +300,17 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAccessibility, onOpenNotFo
 
         {/* MENU DRAWER COMPLETO EXPANSÍVEL (QUANDO O USUÁRIO TOCA EM "MENU") */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-[#071829] border-b border-[#c5a880]/30 px-4 sm:px-6 pt-3 pb-6 space-y-4 max-h-[calc(100vh-8rem)] overflow-y-auto overscroll-contain animate-in fade-in slide-in-from-top-4 duration-200 shadow-2xl">
+          <div 
+            onTouchStart={handleMenuTouchStart}
+            onTouchEnd={handleMenuTouchEnd}
+            className="lg:hidden bg-[#071829] border-b border-[#c5a880]/30 px-4 sm:px-6 pt-2 pb-6 space-y-3 max-h-[calc(100vh-8rem)] overflow-y-auto overscroll-contain animate-in fade-in slide-in-from-top-4 duration-200 shadow-2xl touch-pan-y"
+          >
+            {/* Barra de Toque Visual (Touch Grab Handle) para fechar com gesto */}
+            <div className="pt-1 pb-2 flex flex-col items-center justify-center cursor-pointer" onClick={() => setMobileMenuOpen(false)}>
+              <div className="touch-drag-handle mb-1" />
+              <span className="text-[9px] uppercase tracking-wider text-slate-400 font-medium">Toque ou deslize para cima para fechar</span>
+            </div>
+
             {/* Cabeçalho do Drawer com Identificação Oficial */}
             <div className="pt-1 pb-3 border-b border-white/10 flex items-center justify-between">
               <div>

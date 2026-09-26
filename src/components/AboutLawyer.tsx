@@ -32,7 +32,9 @@ export const AboutLawyer: React.FC<AboutLawyerProps> = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
           {/* Left: Prominent Solo Portrait of Dr. Givaldo Júnior */}
-          <div className="lg:col-span-5 relative">
+          <div className="lg:col-span-5 relative" itemScope itemType="https://schema.org/Person">
+            <meta itemProp="jobTitle" content="Advogado" />
+            <meta itemProp="identifier" content="OAB/PR 100.231" />
             <div className="relative mx-auto max-w-[420px]">
               
               {/* Gold Border Accent */}
@@ -40,14 +42,15 @@ export const AboutLawyer: React.FC<AboutLawyerProps> = () => {
 
               <div className="interactive-block dark-block relative rounded-lg overflow-hidden bg-[#0a192f] shadow-2xl border border-[#c5a880]/40 cursor-pointer">
                 <img 
+                  itemProp="image"
                   src="/assets/givaldo-junior.jpg" 
-                  alt="Dr. Givaldo Júnior - Advogado de Família"
+                  alt="Dr. Givaldo Júnior - Advogado OAB/PR 100.231"
                   className="w-full h-[490px] sm:h-[530px] object-cover object-top filter brightness-[0.98] contrast-[1.02]"
                 />
 
                 {/* Bottom Overlay Info */}
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#071829] via-[#071829]/80 to-transparent p-6 pt-16 text-white">
-                  <h3 className="text-2xl font-display font-bold text-white">
+                  <h3 itemProp="name" className="text-2xl font-display font-bold text-white">
                     Dr. Givaldo Júnior
                   </h3>
                   <p className="text-xs text-slate-300 mt-1">

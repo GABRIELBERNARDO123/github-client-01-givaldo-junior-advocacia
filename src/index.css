@@ -465,3 +465,67 @@ body.acc-reduced-motion *::after {
   background: #c5a880;
 }
 
+/* ==========================================================================
+   SUPORTE INTERATIVO A TOUCH & GESTOS MOBILE (WCAG & TOUCH ERGONOMICS)
+   ========================================================================== */
+
+/* Elimina o delay nativo de 300ms em toques touch no mobile */
+html, body, a, button, input, select, textarea, [role="button"], .interactive-block, .interactive-card {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Suporte a deslizamento e gestos horizontais/verticais com física fluida no iOS/Android */
+.touch-pan-x {
+  touch-action: pan-x;
+  -webkit-overflow-scrolling: touch;
+}
+
+.touch-pan-y {
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Feedback tátil imediato no toque (micro-interação tátil nativa) */
+.active-tactile {
+  transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.4, 1), filter 0.15s ease-out;
+}
+
+.active-tactile:active {
+  transform: scale(0.972);
+  filter: brightness(0.96);
+}
+
+/* Indicador de barra de arrasto touch (grab handle) */
+.touch-drag-handle {
+  width: 36px;
+  height: 4px;
+  background-color: rgba(197, 168, 128, 0.45);
+  border-radius: 9999px;
+  margin: 0 auto;
+}
+
+/* Alvos mínimos de toque recomendados (44x44px) */
+@media (pointer: coarse) {
+  a, button, [role="button"] {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* Desativa efeitos de hover persistentes quando o usuário toca na tela */
+  .interactive-block:hover:not(:active),
+  .interactive-card:hover:not(:active) {
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* Aplica resposta imediata ao toque real */
+  .interactive-block:active,
+  .interactive-card:active {
+    transform: scale(0.985);
+    border-color: #c5a880 !important;
+  }
+}
+
+

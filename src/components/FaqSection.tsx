@@ -37,8 +37,11 @@ export const FaqSection: React.FC<FaqSectionProps> = () => {
           {faqItems.map((item, index) => {
             const isOpen = openIdx === index;
             return (
-              <div
+              <article
                 key={index}
+                itemScope
+                itemProp="mainEntity"
+                itemType="https://schema.org/Question"
                 className={`interactive-block rounded-xl border transition-all duration-200 overflow-hidden cursor-pointer ${
                   isOpen
                     ? 'bg-white border-[#c5a880] shadow-lg ring-1 ring-[#c5a880]/40'
@@ -47,14 +50,14 @@ export const FaqSection: React.FC<FaqSectionProps> = () => {
               >
                 <button
                   onClick={() => toggle(index)}
-                  className="w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 cursor-pointer focus:outline-none"
+                  className="w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 cursor-pointer focus:outline-none touch-manipulation active:bg-[#FAF8F3]/60 min-h-[56px]"
                   aria-expanded={isOpen}
                 >
                   <div className="flex items-center gap-3.5">
                     <span className="text-xs font-bold text-[#8a6828] font-cinzel w-6">
                       {String(index + 1).padStart(2, '0')}
                     </span>
-                    <h3 className="text-sm sm:text-base font-display font-semibold text-[#071829]">
+                    <h3 itemProp="name" className="text-sm sm:text-base font-display font-semibold text-[#071829]">
                       {item.question}
                     </h3>
                   </div>
@@ -67,8 +70,13 @@ export const FaqSection: React.FC<FaqSectionProps> = () => {
                 </button>
 
                 {isOpen && (
-                  <div className="px-5 sm:px-6 pb-6 pt-1 text-xs sm:text-sm text-slate-600 leading-relaxed font-light border-t border-slate-100 space-y-3 animate-fade-in hw-accelerate">
-                    <p>{item.answer}</p>
+                  <div 
+                    itemScope 
+                    itemProp="acceptedAnswer" 
+                    itemType="https://schema.org/Answer" 
+                    className="px-5 sm:px-6 pb-6 pt-1 text-xs sm:text-sm text-slate-600 leading-relaxed font-light border-t border-slate-100 space-y-3 animate-fade-in hw-accelerate"
+                  >
+                    <p itemProp="text">{item.answer}</p>
                     
                     {item.practicalTip && (
                       <div className="interactive-mini-block p-3.5 rounded-lg bg-[#FAF8F3] border border-[#c5a880]/30 flex items-start gap-2.5 text-xs text-slate-700">
@@ -81,7 +89,7 @@ export const FaqSection: React.FC<FaqSectionProps> = () => {
                     )}
                   </div>
                 )}
-              </div>
+              </article>
             );
           })}
         </div>
