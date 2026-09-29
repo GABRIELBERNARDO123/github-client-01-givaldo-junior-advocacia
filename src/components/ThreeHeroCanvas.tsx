@@ -178,13 +178,12 @@ export const ThreeHeroCanvas: React.FC = () => {
 
     window.addEventListener('resize', handleResize);
 
-    // Loop de Renderização de 60 FPS com Otimização de Abas Inativas
-    let animationFrameId: number;
+    // Loop de Renderização com Otimização de Visibilidade e Viewport
+    let animationFrameId: number | null = null;
+    let isRunning = false;
     let count = 0;
 
-    const animate = () => {
-      animationFrameId = requestAnimationFrame(animate);
-
+    const renderFrame = () => {
       // Suavização do movimento da câmera em direção ao cursor
       mouseX += (targetX - mouseX) * 0.05;
       mouseY += (targetY - mouseY) * 0.05;
@@ -218,25 +217,67 @@ export const ThreeHeroCanvas: React.FC = () => {
       renderer?.render(scene, camera);
     };
 
-    animate();
+    const animate = () => {
+      if (!isRunning) return;
+      renderFrame();
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    const startAnimation = () => {
+      if (!isRunning && !document.hidden) {
+        isRunning = true;
+        animate();
+      }
+    };
+
+    const stopAnimation = () => {
+      isRunning = false;
+      if (animationFrameId !== null) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+      }
+    };
+
+    // IntersectionObserver: pausa imediatamente quando o Hero sai da tela ao rolar a página
+    let observer: IntersectionObserver | null = null;
+    if ('IntersectionObserver' in window) {
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              startAnimation();
+            } else {
+              stopAnimation();
+            }
+          });
+        },
+        { threshold: 0.05 }
+      );
+      observer.observe(container);
+    } else {
+      startAnimation();
+    }
 
     // Pausar renderização quando a aba estiver oculta para poupar bateria e CPU
     const handleVisibilityChange = () => {
       if (document.hidden) {
-        cancelAnimationFrame(animationFrameId);
+        stopAnimation();
       } else {
-        animate();
+        startAnimation();
       }
     };
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
-    // Limpeza de recursos (Cleanup de GPU e listeners)
+    // Limpeza de recursos (Cleanup de GPU, observer e listeners)
     return () => {
+      stopAnimation();
+      if (observer) {
+        observer.disconnect();
+      }
       window.removeEventListener('mousemove', handlePointerMove);
       window.removeEventListener('touchmove', handlePointerMove);
       window.removeEventListener('resize', handleResize);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
-      cancelAnimationFrame(animationFrameId);
 
       geometry.dispose();
       material.dispose();

@@ -30,6 +30,8 @@ export const ThemedCursor: React.FC<ThemedCursorProps> = ({ disabled = false }) 
   const mousePos = useRef({ x: -100, y: -100 });
   const ringPos = useRef({ x: -100, y: -100 });
   const rafId = useRef<number | null>(null);
+  const isVisibleRef = useRef(false);
+  const hoverStatesRef = useRef({ clickable: false, block: false, text: false });
 
   // Detecção de dispositivos móveis / touch screen
   useEffect(() => {
@@ -67,14 +69,17 @@ export const ThemedCursor: React.FC<ThemedCursorProps> = ({ disabled = false }) 
       mousePos.current.x = e.clientX;
       mousePos.current.y = e.clientY;
 
-      if (!isVisible) setIsVisible(true);
+      if (!isVisibleRef.current) {
+        isVisibleRef.current = true;
+        setIsVisible(true);
+      }
 
       // Ponto de mira segue instantaneamente sem atraso
       if (dotRef.current) {
         dotRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
       }
 
-      // Detecção de elementos interativos para hover magnético
+      // Detecção de elementos interativos com comparação prévia (zero re-renderizações inúteis)
       const target = e.target as HTMLElement | null;
       if (target) {
         const isClickable = Boolean(
@@ -82,16 +87,20 @@ export const ThemedCursor: React.FC<ThemedCursorProps> = ({ disabled = false }) 
             'a, button, [role="button"], input[type="submit"], input[type="button"], .cursor-pointer, select, summary, [onclick], label'
           )
         );
-        const isBlock = Boolean(
+        const isBlock = !isClickable && Boolean(
           target.closest('.interactive-block, .interactive-card, .interactive-mini-block')
         );
-        const isTextInput = Boolean(
+        const isTextInput = !isClickable && !isBlock && Boolean(
           target.closest('input[type="text"], input[type="email"], input[type="tel"], textarea')
         );
 
-        setIsHoveringClickable(isClickable);
-        setIsHoveringBlock(isBlock);
-        setIsHoveringText(isTextInput);
+        const current = hoverStatesRef.current;
+        if (current.clickable !== isClickable || current.block !== isBlock || current.text !== isTextInput) {
+          hoverStatesRef.current = { clickable: isClickable, block: isBlock, text: isTextInput };
+          setIsHoveringClickable(isClickable);
+          setIsHoveringBlock(isBlock);
+          setIsHoveringText(isTextInput);
+        }
       }
     };
 
@@ -123,16 +132,18 @@ export const ThemedCursor: React.FC<ThemedCursorProps> = ({ disabled = false }) 
     };
 
     const handleMouseLeave = () => {
+      isVisibleRef.current = false;
       setIsVisible(false);
     };
 
     const handleMouseEnter = () => {
+      isVisibleRef.current = true;
       setIsVisible(true);
     };
 
     window.addEventListener('pointermove', handlePointerMove, { passive: true });
-    window.addEventListener('pointerdown', handlePointerDown);
-    window.addEventListener('pointerup', handlePointerUp);
+    window.addEventListener('pointerdown', handlePointerDown, { passive: true });
+    window.addEventListener('pointerup', handlePointerUp, { passive: true });
     document.documentElement.addEventListener('mouseleave', handleMouseLeave);
     document.documentElement.addEventListener('mouseenter', handleMouseEnter);
 
@@ -160,7 +171,7 @@ export const ThemedCursor: React.FC<ThemedCursorProps> = ({ disabled = false }) 
       document.documentElement.removeEventListener('mouseenter', handleMouseEnter);
       if (rafId.current) cancelAnimationFrame(rafId.current);
     };
-  }, [disabled, isTouch, isVisible]);
+  }, [disabled, isTouch]);
 
   if (disabled || isTouch) {
     return null;

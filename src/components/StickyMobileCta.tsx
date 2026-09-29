@@ -7,7 +7,7 @@ import { trackWhatsAppClick } from '../utils/analytics';
 export const StickyMobileCta: React.FC = () => {
   return (
     <div 
-      className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#071829]/95 backdrop-blur-md border-t border-[#c5a880]/30 px-3 py-2 shadow-2xl safe-area-bottom"
+      className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#071829]/95 backdrop-blur-md border-t border-[#c5a880]/30 px-3 py-2 shadow-2xl safe-area-bottom animate-floating-fade-in"
       style={{ maxHeight: '12vh' }}
     >
       <div className="flex items-center gap-2 max-w-md mx-auto">

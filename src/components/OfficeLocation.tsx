@@ -101,17 +101,16 @@ export const OfficeLocation: React.FC = () => {
           {/* Right Column: Office Facade Photo & Map Embed */}
           <div className="lg:col-span-7 space-y-6">
             
-            {/* Authentic Facade Photo - Natural e idêntica ao original enviado, sem filtros ou alterações */}
+            {/* Authentic Facade Photo - Foto real enviada da sede física */}
             <div className="interactive-block dark-block rounded-xl overflow-hidden border border-[#c5a880]/30 shadow-2xl bg-[#0b2138] relative cursor-pointer">
               <img 
-                src="/assets/sede-executiva.jpg" 
-                alt="Fachada do Escritório Dr. Givaldo Júnior em Cascavel"
-                className="w-full h-auto max-h-[520px] object-cover sm:object-contain bg-[#071829]"
+                src="/assets/IMG-20260926-WA0024.jpg" 
+                alt="Fachada do Escritório Dr. Givaldo Júnior - R. das Perdizes dos Florais, 134, Cascavel/PR"
+                loading="lazy"
+                decoding="async"
+                className="w-full h-auto max-h-[540px] object-cover sm:object-contain bg-[#071829]"
                 onError={(e) => {
-                  const target = e.currentTarget;
-                  if (!target.src.includes('unnamed.webp')) {
-                    target.src = '/assets/unnamed.webp';
-                  }
+                  e.currentTarget.src = '/assets/sede-oficial.jpg';
                 }}
               />
               <div className="p-4 sm:p-5 bg-[#071829] border-t border-white/10 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">

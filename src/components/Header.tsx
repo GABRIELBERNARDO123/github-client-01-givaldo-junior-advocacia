@@ -58,20 +58,32 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAccessibility, onOpenNotFo
     { label: 'Localização', href: '#escritorio', id: 'escritorio', icon: MapPin, short: 'Contato' }
   ];
 
-  // Observador de seção ativa para destacar o link atual
+  // Observador de seção ativa otimizado com requestAnimationFrame para evitar layout thrashing
   useEffect(() => {
+    let ticking = false;
+    let currentActive = 'inicio';
+
     const handleScroll = () => {
-      const scrollPos = window.scrollY + 180;
-      for (const link of navLinks) {
-        const el = document.getElementById(link.id);
-        if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollPos >= top && scrollPos < top + height) {
-            setActiveSection(link.id);
-            break;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollPos = window.scrollY + 180;
+          for (const link of navLinks) {
+            const el = document.getElementById(link.id);
+            if (el) {
+              const top = el.offsetTop;
+              const height = el.offsetHeight;
+              if (scrollPos >= top && scrollPos < top + height) {
+                if (currentActive !== link.id) {
+                  currentActive = link.id;
+                  setActiveSection(link.id);
+                }
+                break;
+              }
+            }
           }
-        }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 

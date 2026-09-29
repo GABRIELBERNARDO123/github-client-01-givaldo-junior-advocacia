@@ -10,7 +10,7 @@ export const FloatingConcierge: React.FC = () => {
   return (
     <aside 
       aria-label="Atendimento Reservado e Localização"
-      className="fixed bottom-16 right-3 sm:bottom-6 sm:right-5 z-40 flex items-center gap-2 max-w-[calc(100vw-1.5rem)]"
+      className="fixed bottom-16 right-3 sm:bottom-6 sm:right-5 z-40 flex items-center gap-2 max-w-[calc(100vw-1.5rem)] animate-floating-fade-in"
     >
       {!minimized ? (
         <div className="interactive-block dark-block bg-[#071829] border border-[#c5a880]/60 text-white rounded-2xl sm:rounded-full shadow-2xl pl-3.5 sm:pl-4 pr-2.5 py-2 flex flex-col sm:flex-row items-start sm:items-center gap-2.5 sm:gap-3.5 transition-all max-w-full">

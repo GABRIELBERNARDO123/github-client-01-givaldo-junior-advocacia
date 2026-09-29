@@ -45,6 +45,8 @@ export const AboutLawyer: React.FC<AboutLawyerProps> = () => {
                   itemProp="image"
                   src="/assets/givaldo-junior.jpg" 
                   alt="Dr. Givaldo Júnior - Advogado OAB/PR 100.231"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-[490px] sm:h-[530px] object-cover object-top filter brightness-[0.98] contrast-[1.02]"
                 />
 

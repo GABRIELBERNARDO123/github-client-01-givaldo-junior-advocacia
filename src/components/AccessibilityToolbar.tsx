@@ -247,8 +247,8 @@ export const AccessibilityToolbar: React.FC<AccessibilityToolbarProps> = ({ onSe
         />
       )}
 
-      {/* Botões Flutuantes de Acessibilidade & Libras (lado esquerdo para não conflitar com WhatsApp) */}
-      <div className="fixed bottom-4 left-3 sm:bottom-6 sm:left-5 z-40 flex items-center gap-2">
+      {/* Botão Flutuante de Acessibilidade (canto lateral esquerdo, acima de 50px) */}
+      <div className="fixed bottom-[60px] left-3 sm:left-5 z-40 animate-floating-fade-in">
         <button
           ref={toggleButtonRef}
           id="accessibility-toggle-btn"
@@ -257,7 +257,7 @@ export const AccessibilityToolbar: React.FC<AccessibilityToolbarProps> = ({ onSe
           aria-controls="accessibility-panel"
           aria-label="Abrir Painel de Acessibilidade e Recursos para Deficiências Físicas e Visuais (Atalho: Alt + A)"
           title="Opções de Acessibilidade e Legibilidade (Alt + A)"
-          className="group h-12 px-3.5 sm:px-4 rounded-full bg-[#071829] text-white border-2 border-[#c5a880] shadow-2xl hover:bg-[#0d2a47] focus-visible:ring-4 focus-visible:ring-amber-400 focus-visible:outline-none flex items-center gap-2 transition-transform hover:scale-105 active:scale-95 cursor-pointer"
+          className="group h-11 px-3.5 sm:px-4 rounded-full bg-[#071829] text-white border-2 border-[#c5a880] shadow-2xl hover:bg-[#0d2a47] focus-visible:ring-4 focus-visible:ring-amber-400 focus-visible:outline-none flex items-center gap-2 transition-transform hover:scale-105 active:scale-95 cursor-pointer touch-manipulation"
         >
           {/* Símbolo Internacional de Acessibilidade da ONU / WCAG */}
           <div className="w-6 h-6 rounded-full bg-[#c5a880] text-[#071829] flex items-center justify-center font-bold text-xs shrink-0">
@@ -275,17 +275,6 @@ export const AccessibilityToolbar: React.FC<AccessibilityToolbarProps> = ({ onSe
           <span className="hidden md:inline px-1.5 py-0.5 rounded bg-white/10 text-[9px] text-slate-300 font-mono">
             Alt+A
           </span>
-        </button>
-
-        {/* Botão de Acesso Rápido a Libras para Celular e Computador */}
-        <button
-          onClick={handleActivateVLibras}
-          aria-label="Abrir Tradutor Oficial de Libras (VLibras) com avatar 3D"
-          title="Tradutor em Língua Brasileira de Sinais (Libras)"
-          className="h-12 px-3 sm:px-3.5 rounded-full bg-[#1351b4] text-white border-2 border-white/80 shadow-2xl hover:bg-[#0d3b84] focus-visible:ring-4 focus-visible:ring-blue-300 flex items-center gap-1.5 transition-transform hover:scale-105 active:scale-95 cursor-pointer font-bold text-xs"
-        >
-          <Ear className="w-4 h-4 shrink-0 text-white" />
-          <span className="text-white text-[11px] uppercase tracking-wider">Libras</span>
         </button>
       </div>
 

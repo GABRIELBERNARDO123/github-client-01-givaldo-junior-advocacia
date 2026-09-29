@@ -64,10 +64,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <!-- Favicon Oficial do Cliente (Dr. Givaldo Júnior) -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-removebg-preview.png">
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" href="/assets/favicon-removebg-preview.png">
+    <link rel="shortcut icon" type="image/png" href="/assets/favicon-removebg-preview.png">
     <link rel="apple-touch-icon" href="/assets/favicon-removebg-preview.png">
-    <link rel="shortcut icon" href="/favicon.png">
 
     <!-- SEO, AEO, GEO & DIO — Metadados de Indexação e Autoridade Jurídica -->
     <title>GIVALDO JUNIOR | ADVOGADO — OAB/PR 100.231</title>
@@ -518,35 +517,25 @@
     }
     </script>
 
-    <!-- Estrutura Pronta de Analytics (Google Analytics & Meta Pixel) -->
+    <!-- Estrutura Pronta de Analytics (Google Analytics & Meta Pixel stubs prontos para ativação) -->
     <script>
       // Google Analytics 4 (DataLayer Stub)
       window.dataLayer = window.dataLayer || [];
       function gtag(){ dataLayer.push(arguments); }
       gtag('js', new Date());
-      // Para ativar em produção: descomente e insira seu ID G-XXXXXXXXXX
-      // gtag('config', 'G-XXXXXXXXXX');
 
-      // Meta Pixel Stub
-      !function(f,b,e,v,n,t,s)
-      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-      n.queue=[];t=b.createElement(e);t.async=!0;
-      t.src=v;s=b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t,s)}(window, document,'script',
-      'https://connect.facebook.net/en_US/fbevents.js');
-      // Para ativar em produção: descomente e insira o ID do Pixel
-      // fbq('init', 'SEU_PIXEL_ID');
-      // fbq('track', 'PageView');
+      // Meta Pixel stub leve sem requisições de rede bloqueantes
+      window.fbq = window.fbq || function() {
+        (window.fbq.q = window.fbq.q || []).push(arguments);
+      };
     </script>
   </head>
   <body class="bg-[#FAF9F5] text-[#071829] antialiased selection:bg-[#c5a880]/30 selection:text-[#071829]">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
 
-    <!-- Plugin Oficial VLibras (Acessibilidade em Língua Brasileira de Sinais) -->
-    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <!-- Plugin Oficial VLibras carregado de forma assíncrona para não travar a renderização inicial -->
+    <script defer src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
       (function() {
         function initVLibras() {
@@ -558,13 +547,15 @@
               });
             }
           } catch (err) {
-            console.warn('Erro ao inicializar VLibras:', err);
+            // Silencioso se o usuário não necessitar
           }
         }
-        if (document.readyState === 'complete' || document.readyState === 'interactive') {
-          setTimeout(initVLibras, 100);
+        if (document.readyState === 'complete') {
+          setTimeout(initVLibras, 800);
         } else {
-          window.addEventListener('DOMContentLoaded', initVLibras);
+          window.addEventListener('load', function() {
+            setTimeout(initVLibras, 800);
+          });
         }
       })();
     </script>

@@ -58,19 +58,33 @@ export default function App() {
 
         <PracticeAreas />
 
-        <ComparisonTable />
+        <div className="content-visibility-auto">
+          <ComparisonTable />
+        </div>
 
-        <AboutLawyer />
+        <div className="content-visibility-auto">
+          <AboutLawyer />
+        </div>
 
-        <ProcessSteps />
+        <div className="content-visibility-auto">
+          <ProcessSteps />
+        </div>
 
-        <ResolvedCases />
+        <div className="content-visibility-auto">
+          <ResolvedCases />
+        </div>
 
-        <DocumentChecklist />
+        <div className="content-visibility-auto">
+          <DocumentChecklist />
+        </div>
 
-        <FaqSection />
+        <div className="content-visibility-auto">
+          <FaqSection />
+        </div>
 
-        <OfficeLocation />
+        <div className="content-visibility-auto">
+          <OfficeLocation />
+        </div>
       </main>
 
       {/* Footer com link direto para LGPD, WhatsApp e Rota 404 */}

@@ -171,9 +171,15 @@ export const Hero: React.FC = () => {
               {/* Quadro da Foto Oficial do Advogado */}
               <div className="interactive-block dark-block relative rounded-2xl overflow-hidden bg-[#0a192f] shadow-2xl border border-[#c5a880]/40 group cursor-pointer">
                 <img 
-                  src="/assets/givaldo-junior.jpg" 
+                  src="/assets/IMG-20260926-WA0022.jpg" 
                   alt="Dr. Givaldo Júnior — Advogado OAB/PR 100.231" 
-                  className="hero-image object-cover object-top filter brightness-[0.98] contrast-[1.02]" 
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
+                  className="hero-image object-cover object-top filter brightness-[0.98] contrast-[1.02]"
+                  onError={(e) => {
+                    e.currentTarget.src = '/assets/givaldo-oficial.jpg';
+                  }}
                 />
                 
                 {/* Cartão de Fundo com Assinatura da Marca */}
