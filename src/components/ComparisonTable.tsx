@@ -43,12 +43,12 @@ export const ComparisonTable: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="max-w-3xl mb-12 sm:mb-14">
+        <div className="max-w-3xl mb-12 sm:mb-14 reveal-init">
           <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#c5a880] mb-2">
             <span className="w-6 h-[1.5px] bg-[#c5a880]" />
             <span>Diferenciais da Minha Atuação</span>
           </div>
-          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-display font-semibold text-white tracking-tight leading-tight">
+          <h2 className="text-[clamp(1.75rem,3.5vw+0.25rem,2.75rem)] font-display font-semibold text-white tracking-tight leading-tight">
             Por que confiar a sua história ao meu cuidado profissional?
           </h2>
           <p className="mt-3 sm:mt-4 text-xs sm:text-base text-slate-300 leading-relaxed font-light">
@@ -57,22 +57,22 @@ export const ComparisonTable: React.FC = () => {
         </div>
 
         {/* 1. Mobile Cards View (md:hidden) - Perfeita Responsividade sem Rolagem Horizontal */}
-        <div className="md:hidden space-y-4">
+        <div className="md:hidden space-y-4 reveal-init reveal-stagger">
           {comparisonRows.map((row, idx) => (
             <div 
               key={idx}
-              className={`p-4 rounded-xl border ${
+              className={`interactive-block dark-block p-4 rounded-2xl border ${
                 row.isHighlight 
-                  ? 'bg-[#0c2a47] border-[#c5a880] shadow-lg ring-1 ring-[#c5a880]/30' 
+                  ? 'bg-[#0c2a47] border-[#c5a880] shadow-xl ring-1 ring-[#c5a880]/30' 
                   : 'bg-[#081d33] border-white/10'
-              } space-y-3`}
+              } space-y-3 cursor-pointer`}
             >
               <div className="text-xs font-bold text-[#c5a880] uppercase tracking-wider border-b border-white/10 pb-1.5">
                 {row.aspect}
               </div>
 
               {/* Comparativo Dr. Givaldo */}
-              <div className="p-3 rounded-lg bg-[#071829] border border-[#c5a880]/40 space-y-1">
+              <div className="p-3 rounded-xl bg-[#071829] border border-[#c5a880]/40 space-y-1">
                 <div className="flex items-center gap-1.5 text-xs font-bold text-[#e2cda9]">
                   <CheckCircle2 className="w-3.5 h-3.5 text-[#c5a880] shrink-0" />
                   <span>Com Dr. Givaldo Júnior:</span>
@@ -83,7 +83,7 @@ export const ComparisonTable: React.FC = () => {
               </div>
 
               {/* Advocacia Tradicional */}
-              <div className="p-2.5 rounded-lg bg-white/5 border border-white/5 space-y-1">
+              <div className="p-2.5 rounded-xl bg-white/5 border border-white/5 space-y-1">
                 <div className="flex items-center gap-1.5 text-[11px] font-medium text-slate-400">
                   <UserX className="w-3 h-3 text-slate-400 shrink-0" />
                   <span>Advocacia Comum:</span>
@@ -97,7 +97,7 @@ export const ComparisonTable: React.FC = () => {
         </div>
 
         {/* 2. Desktop Table View (hidden md:block) */}
-        <div className="hidden md:block overflow-hidden rounded-xl border border-white/10 shadow-2xl bg-[#081d33]">
+        <div className="hidden md:block overflow-hidden rounded-2xl border border-white/10 shadow-2xl bg-[#081d33] reveal-init">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-[#0b2138] border-b border-white/10 text-xs sm:text-sm uppercase tracking-wider">
@@ -141,14 +141,14 @@ export const ComparisonTable: React.FC = () => {
           </table>
         </div>
 
-        {/* Bottom CTA - Direct to WhatsApp */}
-        <div className="mt-10 text-center">
+        {/* Bottom CTA - Direct to WhatsApp com Física Tátil */}
+        <div className="mt-10 text-center reveal-init">
           <a
             href={getWhatsAppLink('Olá, Dr. Givaldo Júnior. Gostaria de falar com o senhor sobre minha causa.')}
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => trackWhatsAppClick('comparison_bottom_cta')}
-            className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-lg bg-gradient-to-r from-[#c5a880] to-[#b09164] hover:from-[#d4b78f] hover:to-[#be9f70] text-[#071829] font-bold text-xs uppercase tracking-wide shadow-lg transition-all cursor-pointer inline-flex items-center justify-center gap-2 min-h-[46px]"
+            className="btn-tactile-gold w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl bg-gradient-to-r from-[#c5a880] to-[#b09164] text-[#071829] font-bold text-xs uppercase tracking-wider inline-flex items-center justify-center gap-2 min-h-[46px] cursor-pointer"
           >
             <MessageCircle className="w-4 h-4 fill-current shrink-0" />
             <span>Falar Diretamente Comigo no WhatsApp</span>

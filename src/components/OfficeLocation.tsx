@@ -9,12 +9,12 @@ export const OfficeLocation: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="max-w-3xl mb-14">
+        <div className="max-w-3xl mb-14 reveal-init">
           <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#c5a880] mb-2">
             <span className="w-6 h-[1.5px] bg-[#c5a880]" />
             <span>Minha Presença Física & Atendimento Nacional</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-semibold text-white tracking-tight leading-tight">
+          <h2 className="text-[clamp(1.75rem,3.5vw+0.25rem,2.75rem)] font-display font-semibold text-white tracking-tight leading-tight">
             Meu escritório em Cascavel/PR e meu atendimento digital em todo o Brasil.
           </h2>
           <p className="mt-4 text-base text-slate-300 leading-relaxed font-light">
@@ -26,7 +26,7 @@ export const OfficeLocation: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* Left Column: Office Details & Modalities */}
-          <div className="lg:col-span-5 space-y-6">
+          <div className="lg:col-span-5 space-y-6 reveal-init">
             
             {/* Sede Card */}
             <div className="interactive-block dark-block p-6 rounded-xl bg-[#0b2138] border border-white/10 space-y-5 cursor-pointer">
@@ -99,7 +99,7 @@ export const OfficeLocation: React.FC = () => {
           </div>
 
           {/* Right Column: Office Facade Photo & Map Embed */}
-          <div className="lg:col-span-7 space-y-6">
+          <div className="lg:col-span-7 space-y-6 reveal-scale">
             
             {/* Authentic Facade Photo - Foto real enviada da sede física */}
             <div className="interactive-block dark-block rounded-xl overflow-hidden border border-[#c5a880]/30 shadow-2xl bg-[#0b2138] relative cursor-pointer">
@@ -143,7 +143,7 @@ export const OfficeLocation: React.FC = () => {
                   href="https://www.google.com/maps/search/?api=1&query=R.+das+Perdizes+dos+Florais,+134+-+Florais+do+Paran%C3%A1,+Cascavel+-+PR,+85814-480"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-2.5 rounded text-xs font-bold uppercase tracking-wider text-white bg-white/10 hover:bg-white/20 transition-colors shrink-0 flex items-center gap-1.5"
+                  className="btn-tactile-ghost px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-white bg-white/10 hover:bg-white/20 shrink-0 flex items-center gap-1.5 cursor-pointer"
                 >
                   <MapPin className="w-3.5 h-3.5 text-[#c5a880]" />
                   <span>Ver no Maps</span>
@@ -153,9 +153,9 @@ export const OfficeLocation: React.FC = () => {
                   href={getWhatsAppLink('Olá, Dr. Givaldo Júnior. Gostaria de agendar um atendimento presencial ou online em seu escritório.')}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-2.5 rounded text-xs font-bold uppercase tracking-wider text-[#071829] bg-[#c5a880] hover:bg-[#d4b78f] transition-colors shrink-0 shadow flex items-center gap-1.5"
+                  className="btn-tactile-gold px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-[#071829] bg-gradient-to-r from-[#c5a880] to-[#b09164] shrink-0 shadow flex items-center gap-1.5 cursor-pointer"
                 >
-                  <MessageCircle className="w-3.5 h-3.5" />
+                  <MessageCircle className="w-3.5 h-3.5 fill-current" />
                   <span>Agendar no WhatsApp</span>
                 </a>
               </div>

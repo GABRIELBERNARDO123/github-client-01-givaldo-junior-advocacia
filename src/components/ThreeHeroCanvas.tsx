@@ -23,13 +23,15 @@ export const ThreeHeroCanvas: React.FC = () => {
     camera.position.y = 120;
 
     let renderer: THREE.WebGLRenderer | null = null;
+    const isMobile = window.innerWidth < 768;
+
     try {
       renderer = new THREE.WebGLRenderer({ 
         alpha: true, 
-        antialias: true,
+        antialias: !isMobile, // Economiza GPU compositor no mobile
         powerPreference: 'high-performance' 
       });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
       renderer.setSize(width, height);
       renderer.setClearColor(0x071829, 0); // Fundo transparente para mesclar com o CSS
       container.appendChild(renderer.domElement);
@@ -38,10 +40,10 @@ export const ThreeHeroCanvas: React.FC = () => {
       return;
     }
 
-    // Criação da Manta de Partículas de Ouro (Organic Golden Wave Matrix)
-    const SEPARATION = 45;
-    const AMOUNTX = 40;
-    const AMOUNTY = 32;
+    // Criação da Manta de Partículas de Ouro (Otimizada com grade leve no mobile para 60/120 FPS)
+    const SEPARATION = isMobile ? 65 : 45;
+    const AMOUNTX = isMobile ? 22 : 40;
+    const AMOUNTY = isMobile ? 18 : 32;
     const numParticles = AMOUNTX * AMOUNTY;
 
     const positions = new Float32Array(numParticles * 3);

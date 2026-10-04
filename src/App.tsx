@@ -8,6 +8,7 @@ import { ProcessSteps } from './components/ProcessSteps';
 import { ResolvedCases } from './components/ResolvedCases';
 import { DocumentChecklist } from './components/DocumentChecklist';
 import { FaqSection } from './components/FaqSection';
+import { ExecutiveContact } from './components/ExecutiveContact';
 import { OfficeLocation } from './components/OfficeLocation';
 import { Footer } from './components/Footer';
 import { FloatingConcierge } from './components/FloatingConcierge';
@@ -18,11 +19,15 @@ import { LgpdModal } from './components/LgpdModal';
 import { NotFoundModal } from './components/NotFoundModal';
 import { AccessibilityToolbar } from './components/AccessibilityToolbar';
 import { AccessibilitySettings, defaultSettings } from './utils/accessibility';
+import { useScrollReveal } from './hooks/useScrollReveal';
 
 export default function App() {
   const [isPrivacyPolicyOpen, setIsPrivacyPolicyOpen] = useState(false);
   const [isNotFoundOpen, setIsNotFoundOpen] = useState(false);
   const [accessibilitySettings, setAccessibilitySettings] = useState<AccessibilitySettings>(defaultSettings);
+
+  // Ativa motor global de revelação suave por rolagem (Emil Kowalski style)
+  useScrollReveal();
 
   // Listener para rota 404 via hash (#404)
   useEffect(() => {
@@ -58,33 +63,21 @@ export default function App() {
 
         <PracticeAreas />
 
-        <div className="content-visibility-auto">
-          <ComparisonTable />
-        </div>
+        <ComparisonTable />
 
-        <div className="content-visibility-auto">
-          <AboutLawyer />
-        </div>
+        <AboutLawyer />
 
-        <div className="content-visibility-auto">
-          <ProcessSteps />
-        </div>
+        <ProcessSteps />
 
-        <div className="content-visibility-auto">
-          <ResolvedCases />
-        </div>
+        <ResolvedCases />
 
-        <div className="content-visibility-auto">
-          <DocumentChecklist />
-        </div>
+        <DocumentChecklist />
 
-        <div className="content-visibility-auto">
-          <FaqSection />
-        </div>
+        <FaqSection />
 
-        <div className="content-visibility-auto">
-          <OfficeLocation />
-        </div>
+        <ExecutiveContact />
+
+        <OfficeLocation />
       </main>
 
       {/* Footer com link direto para LGPD, WhatsApp e Rota 404 */}

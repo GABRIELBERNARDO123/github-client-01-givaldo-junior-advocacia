@@ -37,12 +37,12 @@ export const ProcessSteps: React.FC<ProcessStepsProps> = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className="max-w-3xl mb-12 sm:mb-16">
+        <div className="max-w-3xl mb-12 sm:mb-16 reveal-init">
           <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#c5a880] mb-2">
             <span className="w-6 h-[1.5px] bg-[#c5a880]" />
             <span>Minha Engenharia Processual & Metodologia</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-semibold text-white tracking-tight leading-tight">
+          <h2 className="text-[clamp(1.75rem,3.5vw+0.25rem,2.75rem)] font-display font-semibold text-white tracking-tight leading-tight">
             Como conduzo a sua causa do primeiro contato à solução definitiva.
           </h2>
           <p className="mt-4 text-base text-slate-300 leading-relaxed font-light">
@@ -64,7 +64,7 @@ export const ProcessSteps: React.FC<ProcessStepsProps> = () => {
         <div 
           ref={scrollRef}
           onScroll={handleScroll}
-          className="flex lg:grid overflow-x-auto lg:overflow-visible no-scrollbar snap-x snap-mandatory touch-pan-x gap-4 sm:gap-6 pb-4 pt-1 -mx-4 px-4 sm:mx-0 sm:px-0 lg:grid-cols-4"
+          className="flex lg:grid overflow-x-auto lg:overflow-visible no-scrollbar snap-x snap-mandatory touch-pan-x gap-4 sm:gap-6 pb-4 pt-1 -mx-4 px-4 sm:mx-0 sm:px-0 lg:grid-cols-4 reveal-init reveal-stagger"
         >
           {strategicPillars.map((pillar, index) => {
             const isHovered = activePillar === index;
@@ -139,10 +139,11 @@ export const ProcessSteps: React.FC<ProcessStepsProps> = () => {
             href={getWhatsAppLink('Olá, Dr. Givaldo Júnior. Gostaria de agendar uma consulta reservada para traçar o plano estratégico da minha causa.')}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto px-6 py-3.5 rounded-lg bg-gradient-to-r from-[#c5a880] via-[#d4b78f] to-[#b09164] hover:from-[#d8bd97] hover:to-[#be9f72] text-[#071829] font-bold text-xs uppercase tracking-wider transition-all shadow-lg flex items-center justify-center gap-2 shrink-0 min-h-[44px] active:scale-95 touch-manipulation"
+            className="btn-tactile-gold w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#c5a880] via-[#d4b78f] to-[#b09164] text-[#071829] font-bold text-xs uppercase tracking-wider shadow-lg flex items-center justify-center gap-2 shrink-0 min-h-[46px] cursor-pointer group"
           >
             <MessageCircle className="w-4 h-4 fill-current" />
             <span>Consultar Dr. Givaldo no WhatsApp</span>
+            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </a>
         </div>
 

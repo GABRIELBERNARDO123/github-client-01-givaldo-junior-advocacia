@@ -55,8 +55,22 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAccessibility, onOpenNotFo
     { label: 'Casos Resolvidos', href: '#casos-resolvidos', id: 'casos-resolvidos', icon: Award, short: 'Casos' },
     { label: 'Documentos', href: '#documentos', id: 'documentos', icon: FileText, short: 'Documentos' },
     { label: 'Dúvidas', href: '#duvidas', id: 'duvidas', icon: HelpCircle, short: 'Dúvidas' },
-    { label: 'Localização', href: '#escritorio', id: 'escritorio', icon: MapPin, short: 'Contato' }
+    { label: 'Contato Executivo', href: '#contato', id: 'contato', icon: MessageCircle, short: 'Contato' },
+    { label: 'Localização', href: '#escritorio', id: 'escritorio', icon: MapPin, short: 'Sede' }
   ];
+
+  // Bloqueia rolagem do body quando o menu fullscreen está ativo no mobile
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
 
   // Observador de seção ativa otimizado com requestAnimationFrame para evitar layout thrashing
   useEffect(() => {
@@ -232,14 +246,14 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAccessibility, onOpenNotFo
 
             {/* Ações à Direita: CTA WhatsApp & Botão de Menu para Telas Pequenas */}
             <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-              {/* Botão de Contato Direto WhatsApp */}
+              {/* Botão de Contato Direto WhatsApp com Física Tátil */}
               <a
                 href={getWhatsAppLink('Olá, Dr. Givaldo Júnior. Gostaria de conversar com o senhor sobre o meu caso.')}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => trackWhatsAppClick('header_primary_cta')}
                 aria-label="Falar no WhatsApp com o Dr. Givaldo Júnior"
-                className="h-9 sm:h-10 px-2.5 xs:px-3 sm:px-4 rounded-lg bg-gradient-to-r from-[#c5a880] via-[#d4b78f] to-[#b09164] hover:from-[#d8bd97] hover:to-[#be9f72] text-[#071829] text-[11px] sm:text-xs font-bold tracking-wide shadow-lg shadow-black/30 transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer whitespace-nowrap inline-flex items-center gap-1.5 shrink-0 min-h-[36px] sm:min-h-[40px]"
+                className="btn-tactile-gold h-9 sm:h-10 px-3 xs:px-3.5 sm:px-4 rounded-xl bg-gradient-to-r from-[#c5a880] via-[#d4b78f] to-[#b09164] text-[#071829] text-[11px] sm:text-xs font-bold tracking-wide shadow-lg shadow-black/30 cursor-pointer whitespace-nowrap inline-flex items-center gap-1.5 shrink-0 min-h-[36px] sm:min-h-[40px]"
               >
                 <MessageCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0 fill-current" />
                 <span>
@@ -310,108 +324,101 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAccessibility, onOpenNotFo
           </nav>
         </div>
 
-        {/* MENU DRAWER COMPLETO EXPANSÍVEL (QUANDO O USUÁRIO TOCA EM "MENU") */}
+        {/* MENU FULLSCREEN MINIMALISTA DE ALTO PADRÃO PARA MOBILE (AWWWARDS STYLE) */}
         {mobileMenuOpen && (
           <div 
-            onTouchStart={handleMenuTouchStart}
-            onTouchEnd={handleMenuTouchEnd}
-            className="lg:hidden bg-[#071829] border-b border-[#c5a880]/30 px-4 sm:px-6 pt-2 pb-6 space-y-3 max-h-[calc(100vh-8rem)] overflow-y-auto overscroll-contain animate-in fade-in slide-in-from-top-4 duration-200 shadow-2xl touch-pan-y"
+            className="lg:hidden fixed inset-0 z-50 bg-[#040c17]/98 backdrop-blur-2xl flex flex-col justify-between p-6 sm:p-8 text-white overflow-y-auto overscroll-contain animate-fade-in"
           >
-            {/* Barra de Toque Visual (Touch Grab Handle) para fechar com gesto */}
-            <div className="pt-1 pb-2 flex flex-col items-center justify-center cursor-pointer" onClick={() => setMobileMenuOpen(false)}>
-              <div className="touch-drag-handle mb-1" />
-              <span className="text-[9px] uppercase tracking-wider text-slate-400 font-medium">Toque ou deslize para cima para fechar</span>
+            {/* Topo do Menu Fullscreen: Logotipo Oficial & Botão Fechar Ergonômico */}
+            <div className="flex items-center justify-between pb-4 border-b border-white/10 shrink-0">
+              <div className="flex items-center gap-2">
+                <img 
+                  src="/assets/favicon-removebg-preview.png" 
+                  alt="Dr. Givaldo Júnior Advocacia" 
+                  className="h-10 w-auto object-contain filter drop-shadow-[0_2px_8px_rgba(197,168,128,0.3)]"
+                  onError={(e) => {
+                    e.currentTarget.src = '/assets/favicon.png';
+                  }}
+                />
+                <div>
+                  <div className="text-xs font-display font-bold text-white tracking-wide">
+                    Dr. Givaldo Júnior
+                  </div>
+                  <div className="text-[10px] text-[#c5a880] uppercase tracking-wider font-semibold">
+                    OAB/PR 100.231
+                  </div>
+                </div>
+              </div>
+
+              <button
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white flex items-center justify-center transition-all cursor-pointer active:scale-90"
+                aria-label="Fechar menu em tela cheia"
+              >
+                <X className="w-5 h-5 text-[#c5a880]" />
+              </button>
             </div>
 
-            {/* Cabeçalho do Drawer com Identificação Oficial */}
-            <div className="pt-1 pb-3 border-b border-white/10 flex items-center justify-between">
-              <div>
-                <div className="text-xs font-bold text-[#c5a880] uppercase tracking-wider">
-                  Dr. Givaldo Júnior
-                </div>
-                <div className="text-[11px] text-slate-300">
-                  Advogado • OAB/PR 100.231
-                </div>
+            {/* Navegação Principal em Tela Cheia com Tipografia Editorial Elegante */}
+            <nav className="py-6 sm:py-8 space-y-2 sm:space-y-3 my-auto">
+              <div className="text-[10px] uppercase font-bold tracking-widest text-[#c5a880] mb-3">
+                Navegação Executiva:
               </div>
-              <div className="px-2 py-0.5 rounded bg-[#c5a880]/20 border border-[#c5a880]/40 text-[10px] font-bold text-[#e2cda9] uppercase">
-                Cascavel/PR
-              </div>
-            </div>
 
-            {/* Lista Completa de Links da Página para Telas Pequenas */}
-            <div className="space-y-1 pt-1">
-              <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-2 pb-1">
-                Todas as Seções do Site:
-              </div>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
-                {navLinks.map((link) => {
-                  const IconComponent = link.icon;
-                  const isActive = activeSection === link.id;
-                  return (
-                    <a
-                      key={link.label}
-                      href={link.href}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleLinkClick(link.href);
-                      }}
-                      className={`flex items-center justify-between p-3 rounded-lg text-sm font-medium transition-all ${
-                        isActive
-                          ? 'bg-[#c5a880] text-[#071829] font-bold shadow-md'
-                          : 'bg-white/5 hover:bg-white/10 text-slate-200 hover:text-white border border-white/5'
-                      }`}
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <IconComponent className={`w-4 h-4 shrink-0 ${isActive ? 'text-[#071829]' : 'text-[#c5a880]'}`} />
-                        <span>{link.label}</span>
-                      </div>
-                      <ChevronRight className={`w-4 h-4 shrink-0 ${isActive ? 'text-[#071829]' : 'text-slate-400'}`} />
-                    </a>
-                  );
-                })}
-
-                {onOpenNotFound && (
-                  <button
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      onOpenNotFound();
+              {navLinks.map((link, idx) => {
+                const isActive = activeSection === link.id;
+                return (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleLinkClick(link.href);
                     }}
-                    className="w-full text-left p-3 rounded-lg text-sm text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 font-medium transition-colors flex items-center justify-between border border-white/5"
+                    className={`group flex items-center justify-between py-2.5 sm:py-3 transition-colors cursor-pointer border-b border-white/5 ${
+                      isActive ? 'text-[#c5a880]' : 'text-slate-200 hover:text-[#c5a880]'
+                    }`}
                   >
-                    <div className="flex items-center gap-2.5">
-                      <AlertCircle className="w-4 h-4 text-[#c5a880] shrink-0" />
-                      <span>Simular Página 404</span>
+                    <div className="flex items-baseline gap-3.5">
+                      <span className="text-xs font-cinzel text-[#c5a880]/60 font-semibold w-5">
+                        {String(idx + 1).padStart(2, '0')}
+                      </span>
+                      <span className="text-xl sm:text-2xl font-display font-medium tracking-tight">
+                        {link.label}
+                      </span>
                     </div>
-                    <ChevronRight className="w-4 h-4 text-slate-500 shrink-0" />
-                  </button>
-                )}
-              </div>
-            </div>
+                    <ChevronRight className={`w-5 h-5 transition-transform group-hover:translate-x-1 ${isActive ? 'text-[#c5a880]' : 'text-slate-500'}`} />
+                  </a>
+                );
+              })}
+            </nav>
 
-            {/* CTAs de Atendimento Rápido no Drawer */}
-            <div className="pt-3 space-y-2 border-t border-white/10">
+            {/* Rodapé do Menu Fullscreen: Ações de Contato Direto & Autoridade */}
+            <div className="pt-4 border-t border-white/10 shrink-0 space-y-3">
               <a
-                href={getWhatsAppLink('Olá, Dr. Givaldo Júnior. Gostaria de tirar uma dúvida sobre o meu caso pelo WhatsApp.')}
+                href={getWhatsAppLink('Olá, Dr. Givaldo Júnior. Gostaria de conversar diretamente com o senhor.')}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => {
                   setMobileMenuOpen(false);
-                  trackWhatsAppClick('drawer_whatsapp_btn');
+                  trackWhatsAppClick('fullscreen_menu_whatsapp');
                 }}
-                className="flex items-center justify-center gap-2 w-full py-3.5 px-4 rounded-lg bg-gradient-to-r from-[#25D366] to-[#128C7E] text-white text-xs font-bold tracking-wide shadow-lg cursor-pointer min-h-[46px]"
+                className="btn-tactile-gold w-full h-12 rounded-xl bg-gradient-to-r from-[#c5a880] via-[#d4b78f] to-[#b09164] text-[#071829] font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer shadow-lg"
               >
                 <MessageCircle className="w-4 h-4 fill-current shrink-0" />
-                <span>Conversar no WhatsApp com o Dr. Givaldo</span>
+                <span>Falar no WhatsApp com o Dr. Givaldo</span>
               </a>
 
-              <a
-                href={`tel:${officeInfo.phoneRaw}`}
-                className="flex items-center justify-center gap-2 py-2.5 text-xs font-medium text-slate-300 hover:text-[#c5a880] transition-colors min-h-[38px]"
-              >
-                <Phone className="w-3.5 h-3.5 text-[#c5a880] shrink-0" />
-                <span className="tabular-nums">Ligar para o escritório: {officeInfo.phone}</span>
-              </a>
+              <div className="flex items-center justify-between text-xs text-slate-400 pt-1">
+                <a
+                  href={`tel:${officeInfo.phoneRaw}`}
+                  className="hover:text-white transition-colors flex items-center gap-1.5"
+                >
+                  <Phone className="w-3.5 h-3.5 text-[#c5a880]" />
+                  <span>{officeInfo.phone}</span>
+                </a>
+                <span>Cascavel/PR • Atendimento Nacional</span>
+              </div>
             </div>
           </div>
         )}

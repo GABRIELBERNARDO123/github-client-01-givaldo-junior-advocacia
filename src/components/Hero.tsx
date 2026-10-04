@@ -12,52 +12,55 @@ export const Hero: React.FC = () => {
     if (!heroRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Animação de entrada sóbria e coreografada dos elementos do Hero
+      // Entrada coreografada em cascata com física de desaceleração suave (Emil Kowalski style)
       gsap.from('.gsap-hero-badge', {
-        y: -15,
+        y: -12,
         opacity: 0,
-        duration: 0.8,
+        duration: 0.7,
         ease: 'power3.out'
       });
 
       gsap.from('.gsap-hero-title', {
-        y: 25,
+        y: 28,
         opacity: 0,
-        duration: 1,
-        delay: 0.15,
+        duration: 0.9,
+        delay: 0.12,
         ease: 'power3.out'
       });
 
       gsap.from('.gsap-hero-desc', {
-        y: 20,
+        y: 18,
         opacity: 0,
-        duration: 0.9,
-        delay: 0.3,
+        duration: 0.85,
+        delay: 0.24,
         ease: 'power3.out'
       });
 
-      gsap.from('.gsap-hero-bullets', {
-        y: 20,
+      gsap.from('.gsap-hero-bullets > div', {
+        y: 14,
         opacity: 0,
-        duration: 0.8,
-        delay: 0.45,
-        ease: 'power3.out'
+        duration: 0.6,
+        stagger: 0.08,
+        delay: 0.36,
+        ease: 'power2.out'
       });
 
-      gsap.from('.gsap-hero-cta', {
-        y: 20,
+      gsap.from('.gsap-hero-cta > a', {
+        y: 16,
         opacity: 0,
-        duration: 0.8,
-        delay: 0.6,
-        ease: 'power3.out'
+        duration: 0.7,
+        stagger: 0.1,
+        delay: 0.5,
+        ease: 'back.out(1.2)'
       });
 
       gsap.from('.gsap-hero-photo', {
-        scale: 0.95,
+        scale: 0.94,
+        y: 20,
         opacity: 0,
         duration: 1.1,
-        delay: 0.3,
-        ease: 'power2.out'
+        delay: 0.25,
+        ease: 'power3.out'
       });
     }, heroRef);
 
@@ -87,20 +90,22 @@ export const Hero: React.FC = () => {
           {/* Coluna Esquerda: Posicionamento Estratégico, Autoridade e CTA da Primeira Dobra */}
           <div className="lg:col-span-7 space-y-5 sm:space-y-7">
             
-            {/* Tag de Verificação de Autoridade OAB */}
-            <div className="gsap-hero-badge inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-[#c5a880]/40 text-[11px] sm:text-xs font-semibold text-[#e2cda9] max-w-full">
-              <span className="w-2 h-2 rounded-full bg-[#c5a880] animate-pulse shrink-0" />
-              <span className="truncate">Givaldo Junior • Advogado OAB/PR 100.231</span>
+            {/* Kicker Editorial de Autoridade OAB (Anti-Slop Zero-Pill) */}
+            <div className="gsap-hero-badge flex items-center gap-2.5 text-xs font-semibold tracking-wider text-[#e2cda9] uppercase">
+              <span className="w-2 h-2 rounded-full bg-[#c5a880] shadow-[0_0_8px_#c5a880] animate-pulse shrink-0" />
+              <span>Givaldo Júnior Advocacia</span>
+              <span className="text-white/30" aria-hidden="true">·</span>
+              <span className="text-[#c5a880]">OAB/PR 100.231</span>
             </div>
 
-            {/* Headline Principal de Alto Impacto */}
-            <h1 className="gsap-hero-title text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-display font-semibold text-white leading-tight sm:leading-[1.18] text-balance">
+            {/* Headline Principal de Alto Impacto com clamp() Responsivo */}
+            <h1 className="gsap-hero-title text-[clamp(1.75rem,4.5vw+0.25rem,3.25rem)] font-display font-semibold text-white leading-[1.18] text-balance">
               Protejo seus filhos, seu patrimônio e a sua{' '}
               <span className="text-[#e2cda9] italic font-serif">segurança jurídica</span>.
             </h1>
 
-            {/* Subtítulo Concreto e Empático */}
-            <p className="gsap-hero-desc text-xs xs:text-sm sm:text-base md:text-lg text-slate-300 font-light leading-relaxed max-w-2xl text-pretty">
+            {/* Subtítulo Concreto e Empático com clamp() */}
+            <p className="gsap-hero-desc text-[clamp(0.875rem,1.2vw+0.25rem,1.125rem)] text-slate-300 font-light leading-relaxed max-w-2xl text-pretty">
               Atuação jurídica de alto padrão em <strong>Direito de Família</strong>, <strong>Recuperação de Crédito</strong> e <strong>Regularização de Imóveis</strong>. Condução pessoal pelo Dr. Givaldo Júnior, sem intermediários, com absoluto sigilo e rigor técnico.
             </p>
 
@@ -124,23 +129,23 @@ export const Hero: React.FC = () => {
               </div>
             </div>
 
-            {/* CTAs Estratégicos: Visível na Primeira Dobra Sem Necessidade de Scroll e 100% Direto ao WhatsApp */}
+            {/* CTAs Estratégicos: Visível na Primeira Dobra com Física Tátil */}
             <div className="gsap-hero-cta pt-2 sm:pt-3 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
               <a
                 href={getWhatsAppLink('Olá, Dr. Givaldo Júnior. Gostaria de falar diretamente com o senhor sobre o meu caso.')}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => trackWhatsAppClick('hero_first_fold_primary')}
-                className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-lg bg-gradient-to-r from-[#c5a880] via-[#d4b78f] to-[#b09164] hover:from-[#d8bd97] hover:to-[#be9f72] text-[#071829] font-bold text-xs sm:text-sm tracking-wide uppercase shadow-xl shadow-black/40 flex items-center justify-center gap-2 transition-all transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer min-h-[46px] sm:min-h-[48px]"
+                className="btn-tactile-gold w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl bg-gradient-to-r from-[#c5a880] via-[#d4b78f] to-[#b09164] text-[#071829] font-bold text-xs sm:text-sm tracking-wide uppercase flex items-center justify-center gap-2.5 cursor-pointer min-h-[48px] group"
               >
                 <MessageCircle className="w-4 h-4 shrink-0 fill-current" />
                 <span>Fale com o Advogado no WhatsApp</span>
-                <ArrowRight className="w-4 h-4 shrink-0" />
+                <ArrowRight className="w-4 h-4 shrink-0 transition-transform duration-200 group-hover:translate-x-1" />
               </a>
 
               <a
                 href="#atuacao"
-                className="w-full sm:w-auto px-5 sm:px-6 py-3.5 sm:py-4 rounded-lg bg-white/5 hover:bg-white/10 text-slate-200 hover:text-white border border-[#c5a880]/30 text-xs sm:text-sm font-semibold tracking-wide flex items-center justify-center gap-2 transition-all cursor-pointer min-h-[46px] sm:min-h-[48px]"
+                className="btn-tactile-ghost w-full sm:w-auto px-5 sm:px-6 py-3.5 sm:py-4 rounded-xl bg-white/5 hover:bg-white/10 text-slate-200 hover:text-white border border-[#c5a880]/30 text-xs sm:text-sm font-semibold tracking-wide flex items-center justify-center gap-2 cursor-pointer min-h-[48px]"
               >
                 <span>Conhecer Minhas Áreas de Atuação</span>
               </a>

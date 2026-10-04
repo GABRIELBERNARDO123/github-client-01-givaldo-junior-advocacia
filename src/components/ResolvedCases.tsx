@@ -84,13 +84,13 @@ export const ResolvedCases: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#c5a880]/15 border border-[#c5a880]/30 text-xs font-bold uppercase tracking-wider text-[#8a6828] mb-3">
+        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14 reveal-init">
+          <div className="flex items-center justify-center gap-2 text-xs font-semibold tracking-wider text-[#8a6828] uppercase mb-3">
             <Sparkles className="w-3.5 h-3.5 text-[#8a6828]" />
-            <span>Casos Resolvidos • Avaliações Reais no Google</span>
+            <span>Casos Resolvidos · Avaliações Reais no Google</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-semibold text-[#071829] tracking-tight leading-tight">
+          <h2 className="text-[clamp(1.75rem,3.5vw+0.25rem,2.75rem)] font-display font-semibold text-[#071829] tracking-tight leading-tight">
             O que nossos clientes dizem sobre os casos que resolvi
           </h2>
 
@@ -123,7 +123,7 @@ export const ResolvedCases: React.FC = () => {
         </div>
 
         {/* Filter Pills com Suporte a Scroll Touch Horizontal */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8 reveal-init">
           <div className="w-full sm:w-auto overflow-x-auto no-scrollbar touch-pan-x py-1 flex items-center gap-2">
             <button
               onClick={() => {
@@ -393,7 +393,7 @@ export const ResolvedCases: React.FC = () => {
         )}
 
         {/* Banner de Chamada / CTA Inferior com Alvos de Toque Confortáveis */}
-        <div className="mt-14 sm:mt-16 bg-gradient-to-br from-[#071829] via-[#0b2238] to-[#071829] rounded-2xl p-8 sm:p-10 border border-[#c5a880]/40 text-white relative overflow-hidden shadow-2xl">
+        <div className="mt-14 sm:mt-16 bg-gradient-to-br from-[#071829] via-[#0b2238] to-[#071829] rounded-2xl p-8 sm:p-10 border border-[#c5a880]/40 text-white relative overflow-hidden shadow-2xl reveal-scale">
           <div className="absolute top-0 right-0 w-80 h-80 bg-[#c5a880]/10 rounded-full blur-3xl pointer-events-none" />
           
           <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8 text-center lg:text-left">
@@ -416,14 +416,14 @@ export const ResolvedCases: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => trackWhatsAppClick('resolved_cases_cta_btn', 'casos_resolvidos')}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.96 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.97 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                className="w-full sm:w-auto px-7 py-4 rounded-xl bg-gradient-to-r from-[#c5a880] via-[#d4b78f] to-[#b09164] hover:from-[#d8bd97] hover:to-[#be9f72] text-[#071829] font-bold text-xs uppercase tracking-wider transition-all shadow-lg flex items-center justify-center gap-2.5 cursor-pointer min-h-[48px] touch-manipulation"
+                className="btn-tactile-gold w-full sm:w-auto px-7 py-4 rounded-xl bg-gradient-to-r from-[#c5a880] via-[#d4b78f] to-[#b09164] text-[#071829] font-bold text-xs uppercase tracking-wider shadow-lg flex items-center justify-center gap-2.5 cursor-pointer min-h-[48px] touch-manipulation group"
               >
                 <MessageCircle className="w-4 h-4 fill-current" />
                 <span>Avaliar Meu Caso no WhatsApp</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </motion.a>
             </div>
           </div>

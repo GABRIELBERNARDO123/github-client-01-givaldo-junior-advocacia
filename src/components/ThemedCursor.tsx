@@ -61,6 +61,46 @@ export const ThemedCursor: React.FC<ThemedCursorProps> = ({ disabled = false }) 
     };
   }, [disabled, isTouch]);
 
+  // Efeito de feedback tátil e físico para usuários mobile (Touch Ripple Tátil)
+  useEffect(() => {
+    if (!isTouch || disabled || typeof window === 'undefined') return;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      if (e.touches.length === 0) return;
+      const touch = e.touches[0];
+      const target = e.target as HTMLElement | null;
+      if (!target) return;
+
+      const isInteractive = Boolean(
+        target.closest('a, button, [role="button"], .interactive-block, .interactive-card, .btn-tactile-gold, .btn-tactile-ghost, summary')
+      );
+
+      if (isInteractive) {
+        const ripple = document.createElement('div');
+        ripple.className = 'touch-tap-ripple pointer-events-none fixed z-50 rounded-full bg-[#c5a880]/30 -translate-x-1/2 -translate-y-1/2';
+        ripple.style.left = `${touch.clientX}px`;
+        ripple.style.top = `${touch.clientY}px`;
+        ripple.style.width = '24px';
+        ripple.style.height = '24px';
+        ripple.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease-out';
+        ripple.style.transform = 'translate(-50%, -50%) scale(1)';
+        document.body.appendChild(ripple);
+
+        requestAnimationFrame(() => {
+          ripple.style.transform = 'translate(-50%, -50%) scale(3.2)';
+          ripple.style.opacity = '0';
+        });
+
+        setTimeout(() => {
+          if (ripple.parentNode) ripple.parentNode.removeChild(ripple);
+        }, 450);
+      }
+    };
+
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    return () => window.removeEventListener('touchstart', handleTouchStart);
+  }, [isTouch, disabled]);
+
   // Listener de movimento do mouse e loop de interpolação
   useEffect(() => {
     if (disabled || isTouch || typeof window === 'undefined') return;

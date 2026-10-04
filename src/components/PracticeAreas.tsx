@@ -163,12 +163,12 @@ export const PracticeAreas: React.FC<PracticeAreasProps> = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="max-w-3xl mb-10 lg:mb-12 gsap-practice-title">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#c5a880]/15 border border-[#c5a880]/30 text-xs font-bold uppercase tracking-wider text-[#8a6828] mb-3">
+        <div className="max-w-3xl mb-10 lg:mb-12 reveal-init">
+          <div className="flex items-center gap-2 text-xs font-semibold tracking-wider text-[#8a6828] uppercase mb-3">
             <Sparkles className="w-3.5 h-3.5 text-[#8a6828]" />
             <span>Especialidades Jurídicas Estratégicas</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-semibold text-[#071829] tracking-tight leading-tight">
+          <h2 className="text-[clamp(1.75rem,3.5vw+0.25rem,2.75rem)] font-display font-semibold text-[#071829] tracking-tight leading-tight">
             Direito de Família • Recuperação de Crédito • Regularização de Imóveis
           </h2>
           <p className="mt-4 text-base text-slate-600 leading-relaxed font-light">
@@ -177,7 +177,7 @@ export const PracticeAreas: React.FC<PracticeAreasProps> = () => {
         </div>
 
         {/* Barra de Seleção Touch Horizontal em Telas Pequenas/Médias (Mobile & Tablet) */}
-        <div className="lg:hidden mb-8">
+        <div className="lg:hidden mb-8 reveal-init">
           <div className="flex items-center justify-between px-1 mb-2.5 text-xs text-slate-500">
             <span className="font-semibold text-[#8a6828] flex items-center gap-1">
               <span className="text-sm">👆</span> Toque ou deslize as especialidades:
@@ -216,7 +216,7 @@ export const PracticeAreas: React.FC<PracticeAreasProps> = () => {
         </div>
 
         {/* Dual Layout com Suporte a Gestos de Toque (Motion.dev) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start gsap-practice-grid">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start reveal-init">
           
           {/* Coluna Esquerda: Seletor Interativo para Desktop */}
           <div className="hidden lg:block lg:col-span-5 space-y-6">
@@ -342,9 +342,9 @@ export const PracticeAreas: React.FC<PracticeAreasProps> = () => {
           <div ref={detailCardRef} className="lg:col-span-7 lg:sticky lg:top-24">
             <motion.div
               key={currentArea.id}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.28 }}
+              initial={{ opacity: 0, y: 14, scale: 0.99 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ type: 'spring', stiffness: 320, damping: 28 }}
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
@@ -385,7 +385,7 @@ export const PracticeAreas: React.FC<PracticeAreasProps> = () => {
               </div>
 
               <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-100">
-                <span className="px-3 py-1 rounded-full bg-[#c5a880]/15 text-[#8a6828] text-xs font-semibold tracking-wide uppercase">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#8a6828]">
                   {currentArea.badge}
                 </span>
                 <span className="text-xs text-slate-500 flex items-center gap-1.5 font-medium">
@@ -427,7 +427,7 @@ export const PracticeAreas: React.FC<PracticeAreasProps> = () => {
                 </p>
               </div>
 
-              {/* Ação Direta no WhatsApp com Toque Suave (Motion.dev) */}
+              {/* Ação Direta no WhatsApp com Toque Tátil */}
               <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="text-xs text-slate-500">
                   Deseja tirar dúvidas ou dar início ao procedimento?
@@ -438,13 +438,13 @@ export const PracticeAreas: React.FC<PracticeAreasProps> = () => {
                   rel="noopener noreferrer"
                   onClick={() => trackWhatsAppClick('practice_area_card_btn', currentArea.title)}
                   whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.96 }}
+                  whileTap={{ scale: 0.97 }}
                   transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                  className="w-full sm:w-auto px-6 py-3.5 rounded-lg bg-gradient-to-r from-[#c5a880] via-[#d4b78f] to-[#b09164] hover:from-[#d8bd97] hover:to-[#be9f72] text-[#071829] font-bold text-xs uppercase tracking-wider transition-all shadow cursor-pointer flex items-center justify-center gap-2 min-h-[44px] touch-manipulation"
+                  className="btn-tactile-gold w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#c5a880] via-[#d4b78f] to-[#b09164] text-[#071829] font-bold text-xs uppercase tracking-wider cursor-pointer flex items-center justify-center gap-2 min-h-[46px] touch-manipulation group"
                 >
                   <MessageCircle className="w-4 h-4 fill-current" />
                   <span>Falar Sobre {currentArea.title}</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                 </motion.a>
               </div>
 
